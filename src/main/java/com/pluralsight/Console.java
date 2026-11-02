@@ -34,17 +34,17 @@ public class Console {
     }
 
     public static double promptForDouble(String prompt) {
-        double result = 0.0;
+        double input = 0.00;
         boolean isValid = false;
 
         do {
             try {
                 System.out.print(prompt);
-                result = scanner.nextInt();
+                input = scanner.nextInt();
                 scanner.nextLine(); // Consume the newline
                 isValid = true;     // Input was successful, exit loop
             } catch (InputMismatchException e) {
-                System.out.println("\nInvalid input. Please enter a valid whole number.");
+                System.out.println("\nInvalid input. Please enter a valid number.");
                 scanner.nextLine(); // Clear the bad input from the scanner buffer
             } catch (Exception e) {
                 System.out.println("\nSomething went wrong. Please try again.");
@@ -52,6 +52,6 @@ public class Console {
             }
         } while (!isValid);
 
-        return result;
+        return input;
     }
 }
