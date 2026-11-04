@@ -40,7 +40,7 @@ public class Console {
         do {
             try {
                 System.out.print(prompt);
-                input = scanner.nextInt();
+                input = scanner.nextDouble();
                 scanner.nextLine(); // Consume the newline
                 isValid = true;     // Input was successful, exit loop
             } catch (InputMismatchException e) {
