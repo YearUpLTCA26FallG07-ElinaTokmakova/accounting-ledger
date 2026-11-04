@@ -17,12 +17,16 @@ public class App {
     public static void main(String[] args) {
 
         //returns from  file
+        //todo add loading
         loadTransactionsFromFile();
         displayHomeScreen();
 
     }
-    // display home screen
+
+    // this method displays home screen
     public static void displayHomeScreen() {
+
+        //todo add welcome message
 
         int selectedOption;
         do {
@@ -30,31 +34,33 @@ public class App {
                     \n+----------------------------------------+
                     |               home screen              |
                     +----------------------------------------+
-                    |  [1] add deposit (credit)              |
-                    |  [2] make payment (debit)              |
-                    |  [3] go to ledger                      |
-                    |  [0] exit application                  |
+                    |  [1] 💵 add deposit                    |
+                    |  [2] 💳 make payment                   |
+                    |  [3] 📑 view ledger                    |
+                    |  [0] 🚪 exit application               |
                     +----------------------------------------+
-                    Pick an option (0-3):\s""");
+                    Select an option [0-3]:""");
 
             switch (selectedOption) {
                 case 1 -> displayAddDeposit();
                 case 2 -> displayMakePayment();
                 case 3 -> displayLedgerScreen();
-                case 0 -> {}
+                case 0 -> {
+                }
                 default -> System.out.println("\nInvalid command, please try again.");
             }
         } while (selectedOption != 0);
 
         System.out.println("Thanks for using our app. Bye!");
     }
-    //add deposit
+
+    // this method processes "add deposit" input
     public static void displayAddDeposit() {
         //todo do you want to add transaction time manually or put it as "now"?
 
         System.out.println("""
                 \n+----------------------------------------+
-                |               add deposit              |
+                |             💵 add deposit             |
                 +----------------------------------------+""");
 
         //convert date input to LocalDate
@@ -66,8 +72,7 @@ public class App {
                 String dateInput = Console.promptForString("\uD83D\uDDD3️ Date in format yyyy-mm-dd (e.g. 2026-11-01): ");
                 date = LocalDate.parse(dateInput);
                 isValid = true;     // Input was valid and conversion was successful, exit loop
-            }
-            catch (DateTimeParseException e){
+            } catch (DateTimeParseException e) {
                 System.out.println("Invalid input. Please double check format yyyy-mm-dd.");
             }
         } while (!isValid);
@@ -82,11 +87,10 @@ public class App {
                 String timeInput = Console.promptForString("⏳ Time in format hh:mm:ss (e.g. 20:17 or 20:17:38): ");
                 time = LocalTime.parse(timeInput);
                 isValid = true;
-            }
-            catch (DateTimeParseException e){
+            } catch (DateTimeParseException e) {
                 System.out.println("Invalid input. Please double check format hh:mm:ss.");
             }
-        } while(!isValid);
+        } while (!isValid);
 
         //description
         String description = Console.promptForString("\uD83D\uDCC3 Enter transaction description: ");
@@ -104,30 +108,32 @@ public class App {
         do {
             selectedOption = Console.promptForInt("""
                     \n+----------------------------------------+
-                    |     Deposit was successfully added.    |
+                    |    💵 Deposit was successfully added.  |
                     +----------------------------------------+
-                    |  [1] add another deposit               |
-                    |  [2] back to home screen               |
+                    |  [1] ➕ add another deposit            |
+                    |  [2] ↩️ return to home screen          |
                     +----------------------------------------+
-                    Pick an option (1-2):\s""");
+                    Select an option [1-2]:""");
 
             switch (selectedOption) {
                 case 1 -> {
                     displayAddDeposit();
                     return;
                 }
-                case 2 -> {}
+                case 2 -> {
+                }
                 default -> System.out.println("\nInvalid command, please try again.");
             }
         } while (selectedOption != 2);
     }
 
+    // this method processes "make payment" input
     public static void displayMakePayment() {
 //todo do you want to add transaction time manually or put it as "now"?
 
         System.out.println("""
                 \n+----------------------------------------+
-                |               add deposit              |
+                |              make payment              |
                 +----------------------------------------+""");
 
         //convert date input to LocalDate
@@ -139,8 +145,7 @@ public class App {
                 String dateInput = Console.promptForString("\uD83D\uDDD3️ Date in format yyyy-mm-dd (e.g. 2026-11-01): ");
                 date = LocalDate.parse(dateInput);
                 isValid = true;     // Input was valid and conversion was successful, exit loop
-            }
-            catch (DateTimeParseException e){
+            } catch (DateTimeParseException e) {
                 System.out.println("Invalid input. Please double check format yyyy-mm-dd.");
             }
         } while (!isValid);
@@ -155,11 +160,10 @@ public class App {
                 String timeInput = Console.promptForString("⏳ Time in format hh:mm:ss (e.g. 20:17 or 20:17:38): ");
                 time = LocalTime.parse(timeInput);
                 isValid = true;
-            }
-            catch (DateTimeParseException e){
+            } catch (DateTimeParseException e) {
                 System.out.println("Invalid input. Please double check format hh:mm:ss.");
             }
-        } while(!isValid);
+        } while (!isValid);
 
         //description
         String description = Console.promptForString("\uD83D\uDCC3 Enter transaction description: ");
@@ -178,10 +182,10 @@ public class App {
         do {
             selectedOption = Console.promptForInt("""
                     \n+----------------------------------------+
-                    |     Payment was successfully added.    |
+                    |   💳 Payment was successfully added.   |
                     +----------------------------------------+
-                    |  [1] add another payment               |
-                    |  [2] back to home screen               |
+                    |  [1] ➕ add another payment            |
+                    |  [2] ↩️ return to home screen          |
                     +----------------------------------------+
                     Pick an option (1-2):\s""");
 
@@ -190,24 +194,75 @@ public class App {
                     displayMakePayment();
                     return;
                 }
-                case 2 -> {}
+                case 2 -> {
+                }
                 default -> System.out.println("\nInvalid command, please try again.");
             }
         } while (selectedOption != 2);
     }
 
+    // this method displays transactions and search
     public static void displayLedgerScreen() {
-        /*
-                  // option 1 - display all transactions
-                  // option 2 - display deposits only
-                  // option 3 - display payments only
-                  // option 4 - go to reports
-                  // option 5 - go back to home screen
-         */
+
+        int selectedOption;
+        do {
+            selectedOption = Console.promptForInt("""
+                    \n+----------------------------------------+
+                    |               📑 ledger                |
+                    +----------------------------------------+
+                    |  [1] 📋 view all transactions          |
+                    |  [2] 💵 view deposits only             |
+                    |  [3] 💳 view payments only             |
+                    |  [4] 📊 open reports                   |
+                    |  [0] ↩️ return to home screen          |
+                    +----------------------------------------+
+                    Select an option [0-4]:""");
+
+            switch (selectedOption) {
+                case 1 -> displayAllTransactions();
+                case 2 -> displayDepositsOnly();
+                case 3 -> displayPaymentsOnly();
+                case 4 -> displayReports();
+                case 0 -> {}
+                default -> System.out.println("\nInvalid command, please try again.");
+            }
+        } while (selectedOption != 0);
 
     }
 
-    //this method loads transactions from file
+    // view all transactions screen
+    private static void displayAllTransactions() {
+        System.out.println("""
+                \n+----------------------------------------+
+                |               transactions             |
+                +----------------------------------------+""");
+    }
+
+    // view deposits only screen
+    private static void displayDepositsOnly() {
+        System.out.println("""
+                \n+----------------------------------------+
+                |               💵 deposits              |
+                +----------------------------------------+""");
+    }
+
+    // view all payments screen
+    private static void displayPaymentsOnly() {
+        System.out.println("""
+                \n+----------------------------------------+
+                |               💳 payments              |
+                +----------------------------------------+""");
+    }
+
+    // reports screen - run pre-defined reports or a custom search
+    private static void displayReports() {
+        System.out.println("""
+                \n+----------------------------------------+
+                |               📊 reports               |
+                +----------------------------------------+""");
+    }
+
+    // this method loads transactions from file
     public static void loadTransactionsFromFile() {
         // todo create new arraylist
         //  add try/catch
@@ -222,11 +277,11 @@ public class App {
             String line;
 
             //loop goes through every line in file
-            while ((line = bufferedReader.readLine())!= null) {
+            while ((line = bufferedReader.readLine()) != null) {
                 //convert each line to Transaction object
                 Transaction t = getTransactionFromLine(line);
 
-                if (!transactions.contains(t) &&  t != null) {
+                if (!transactions.contains(t) && t != null) {
                     transactions.add(t);
                 }
             }
