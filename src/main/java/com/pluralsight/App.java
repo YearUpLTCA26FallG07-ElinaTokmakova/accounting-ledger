@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.regex.Pattern;
 
 public class App {
@@ -96,7 +97,7 @@ public class App {
         String description = Console.promptForString("\uD83D\uDCDD Enter transaction description: ");
 
         //vendor
-        String vendor = Console.promptForString("\uD83C\uDFF7\uFE0F Enter vendor name: ");
+        String vendor = Console.promptForString("\uD83C\uDFF7️ Enter vendor name: ");
 
         //amount
         double amount = Console.promptForDouble("\uD83D\uDCB5 Enter amount: ");
@@ -234,14 +235,17 @@ public class App {
     private static void displayAllTransactions() {
         // table header
         System.out.println("""
-                \n+----------------------------------------+
-                |             all transactions           |
-                +----------------------------------------+""");
+                \n+---------------------------------------------------------+
+                |             all transactions (from most recent)           |
+                +-----------------------------------------------------------+""");
 
         System.out.println("""
                 +----------+----------+----------------------------------------------------+---------------------------+--------------------+
-                | date     | time     | description                                        | vendor                    |             amount |
+                | date     | time     | description                                        | vendor                    |        amount in $ |
                 +----------+----------+----------------------------------------------------+---------------------------+--------------------+""");
+
+        // sort from most recent
+        transactions.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
 
         // print values
         for (Transaction t : transactions) {
