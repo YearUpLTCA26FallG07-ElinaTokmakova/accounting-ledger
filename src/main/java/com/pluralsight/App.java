@@ -25,7 +25,7 @@ public class App {
     }
 
     // this method displays home screen
-    public static void displayHomeScreen() {
+    private static void displayHomeScreen() {
 
         //todo add welcome message
 
@@ -56,7 +56,7 @@ public class App {
     }
 
     // this method processes "add deposit" input
-    public static void displayAddDeposit() {
+    private static void displayAddDeposit() {
         //todo do you want to add transaction time manually or put it as "now"?
 
         System.out.println("""
@@ -129,7 +129,7 @@ public class App {
     }
 
     // this method processes "make payment" input
-    public static void displayMakePayment() {
+    private static void displayMakePayment() {
 //todo do you want to add transaction time manually or put it as "now"?
 
         System.out.println("""
@@ -203,7 +203,7 @@ public class App {
     }
 
     // this method displays transactions and search
-    public static void displayLedgerScreen() {
+    private static void displayLedgerScreen() {
 
         int selectedOption;
         do {
@@ -224,7 +224,8 @@ public class App {
                 case 2 -> displayDepositsOnly();
                 case 3 -> displayPaymentsOnly();
                 case 4 -> displayReports();
-                case 0 -> {}
+                case 0 -> {
+                }
                 default -> System.out.println("\nInvalid command, please try again.");
             }
         } while (selectedOption != 0);
@@ -244,8 +245,7 @@ public class App {
                 | date     | time     | description                                        | vendor                    |        amount in $ |
                 +----------+----------+----------------------------------------------------+---------------------------+--------------------+""");
 
-        // sort from most recent
-        transactions.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
+        sortFromMostRecent();
 
         // print values
         for (Transaction t : transactions) {
@@ -255,10 +255,25 @@ public class App {
 
     // view deposits only screen
     private static void displayDepositsOnly() {
+        // table header
         System.out.println("""
-                \n+----------------------------------------+
-                |               💵 deposits              |
-                +----------------------------------------+""");
+                \n+---------------------------------------------------------+
+                |               all deposits (from most recent)             |
+                +-----------------------------------------------------------+""");
+
+        System.out.println("""
+                +----------+----------+----------------------------------------------------+---------------------------+--------------------+
+                | date     | time     | description                                        | vendor                    |        amount in $ |
+                +----------+----------+----------------------------------------------------+---------------------------+--------------------+""");
+
+        sortFromMostRecent();
+
+        // print only positive values (debit)
+        for (Transaction t : transactions) {
+            if (t.getAmount() > 0) {
+                System.out.println(t.toString());
+            }
+        }
     }
 
     // view all payments screen
@@ -278,7 +293,7 @@ public class App {
     }
 
     // this method loads transactions from file
-    public static void loadTransactionsFromFile() {
+    private static void loadTransactionsFromFile() {
         // todo create new arraylist
         //  add try/catch
         //  file reader + buffered reader
@@ -312,7 +327,7 @@ public class App {
     }
 
     // this method converts each line from file to Transaction object
-    public static Transaction getTransactionFromLine(String line) {
+    private static Transaction getTransactionFromLine(String line) {
 
         //date|time|description|vendor|amount
         //2023-04-15|10:13:25|ergonomic keyboard|Amazon|-89.50
@@ -337,5 +352,10 @@ public class App {
             return null;
 
         }
+    }
+
+    // this method sorts transaction starting from most recent
+    private static void sortFromMostRecent() {
+        transactions.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
     }
 }
