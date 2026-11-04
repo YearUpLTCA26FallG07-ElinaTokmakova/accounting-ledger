@@ -69,7 +69,7 @@ public class App {
 
         do {
             try {
-                String dateInput = Console.promptForString("\uD83D\uDDD3️ Date in format yyyy-mm-dd (e.g. 2026-11-01): ");
+                String dateInput = Console.promptForString("\uD83D\uDCC5 Date in format yyyy-mm-dd (e.g. 2026-11-01): ");
                 date = LocalDate.parse(dateInput);
                 isValid = true;     // Input was valid and conversion was successful, exit loop
             } catch (DateTimeParseException e) {
@@ -84,7 +84,7 @@ public class App {
 
         do {
             try {
-                String timeInput = Console.promptForString("⏳ Time in format hh:mm:ss (e.g. 20:17 or 20:17:38): ");
+                String timeInput = Console.promptForString("\uD83D\uDD52 Time in format hh:mm:ss (e.g. 20:17 or 20:17:38): ");
                 time = LocalTime.parse(timeInput);
                 isValid = true;
             } catch (DateTimeParseException e) {
@@ -93,10 +93,10 @@ public class App {
         } while (!isValid);
 
         //description
-        String description = Console.promptForString("\uD83D\uDCC3 Enter transaction description: ");
+        String description = Console.promptForString("\uD83D\uDCDD Enter transaction description: ");
 
         //vendor
-        String vendor = Console.promptForString("\uD83E\uDD11 Enter vendor name: ");
+        String vendor = Console.promptForString("\uD83C\uDFF7\uFE0F Enter vendor name: ");
 
         //amount
         double amount = Console.promptForDouble("\uD83D\uDCB5 Enter amount: ");
@@ -232,10 +232,21 @@ public class App {
 
     // view all transactions screen
     private static void displayAllTransactions() {
+        // table header
         System.out.println("""
                 \n+----------------------------------------+
-                |               transactions             |
+                |             all transactions           |
                 +----------------------------------------+""");
+
+        System.out.println("""
+                +----------+----------+----------------------------------------------------+---------------------------+--------------------+
+                | date     | time     | description                                        | vendor                    |             amount |
+                +----------+----------+----------------------------------------------------+---------------------------+--------------------+""");
+
+        // print values
+        for (Transaction t : transactions) {
+            System.out.println(t.toString());
+        }
     }
 
     // view deposits only screen

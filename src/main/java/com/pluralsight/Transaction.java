@@ -4,11 +4,11 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Transaction {
-    LocalDate date;
-    LocalTime time;
-    String description;
-    String vendor;
-    double amount;
+    private LocalDate date;
+    private LocalTime time;
+    private String description;
+    private String vendor;
+    private double amount;
 
     public Transaction(LocalDate date, LocalTime time, String description, String vendor, double amount) {
         this.date = date;
@@ -61,7 +61,7 @@ public class Transaction {
 
     public String toString() {
         return String.format("""
-                        %n%-10s | %10s | %-50s | %-25s | %10.2f""",
+                        %-10s | %-8s | %-50s | %-25s | %20.2f""",
                 date, time, description, vendor, amount);
     }
 }
