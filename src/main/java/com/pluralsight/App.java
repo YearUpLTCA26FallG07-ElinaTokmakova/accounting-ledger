@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.Month;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -25,7 +26,8 @@ public class App {
     }
 
     // this method displays home screen
-    private static void displayHomeScreen() {
+    private static void displayHomeScreen()
+    {
 
         //todo add welcome message
 
@@ -37,7 +39,7 @@ public class App {
                     +----------------------------------------+
                     |  [1] 💵 add deposit                    |
                     |  [2] 💳 make payment                   |
-                    |  [3] 📑 view ledger                    |
+                    |  [3] 📑 go to ledger                    |
                     |  [0] 🚪 exit application               |
                     +----------------------------------------+
                     Select an option [0-3]:""");
@@ -202,7 +204,7 @@ public class App {
         } while (selectedOption != 2);
     }
 
-    // this method displays transactions and search
+    // this method displays ledger screen
     private static void displayLedgerScreen() {
 
         int selectedOption;
@@ -214,7 +216,7 @@ public class App {
                     |  [1] 📋 view all transactions          |
                     |  [2] 💵 view deposits only             |
                     |  [3] 💳 view payments only             |
-                    |  [4] 📊 open reports                   |
+                    |  [4] 📊 view reports                   |
                     |  [0] ↩️ return to home screen          |
                     +----------------------------------------+
                     Select an option [0-4]:""");
@@ -301,11 +303,81 @@ public class App {
 
     // reports screen - run pre-defined reports or a custom search
     private static void displayReports() {
-        System.out.println("""
-                \n+----------------------------------------+
-                |               📊 reports               |
-                +----------------------------------------+""");
 
+        int selectedOption;
+        do {
+            selectedOption = Console.promptForInt("""
+                    \n+----------------------------------------+
+                    |               📊 reports               |
+                    +----------------------------------------+
+                    |  [1] month to date                     |
+                    |  [2] previous month                    |
+                    |  [3] year to date                      |
+                    |  [4] previous year                     |
+                    |  [5] search by vendor                  |
+                    |  [0] return to ledger                  |
+                    +----------------------------------------+
+                    Select an option [0-5]:""");
+
+            switch (selectedOption) {
+                case 1 -> reportMonthToDate();
+                case 2 -> reportPreviousMonth();
+                case 3 -> reportYearToDate();
+                case 4 -> reportPreviousYear();
+                case 5 -> searchByVendor();
+                case 0 -> {}
+                default -> System.out.println("\nInvalid command, please try again.");
+            }
+        } while (selectedOption != 0);
+    }
+
+    // this method shows report for month to date
+    private static void reportMonthToDate() {
+        // initialize today
+        LocalDate endDate = LocalDate.now();
+
+        // initialize first date of current month
+        LocalDate startDate = endDate.withDayOfMonth(1);
+
+        showTransactionsInRange(startDate, endDate);
+    }
+
+    // this method shows report for previous month
+    private static void reportPreviousMonth() {
+    }
+
+    // this method shows report for year to date
+    private static void reportYearToDate() {
+    }
+
+    // this method shows report for previous year
+    private static void reportPreviousYear() {
+    }
+
+    // this method display transactions that are in range
+    private static void showTransactionsInRange(LocalDate startDate, LocalDate endDate) {
+
+        // table header
+        System.out.printf("""
+                \n\n+---------------------------------------------------------------------------------+
+                |                report for month to date (%s – %s)               |
+                +---------------------------------------------------------------------------------+\n""", startDate, endDate);
+        System.out.println("""
+                +----------+----------+----------------------------------------------------+---------------------------+--------------------+
+                | date     | time     | description                                        | vendor                    |        amount in $ |
+                +----------+----------+----------------------------------------------------+---------------------------+--------------------+""");
+
+        sortFromOldest();
+
+        for (Transaction t : transactions) {
+            if (!t.getDate().isBefore(startDate) && !t.getDate().isAfter(endDate)) {
+                System.out.println(t.toString());
+            }
+        }
+    }
+
+    // this method shows report for specific vendor
+    private static void searchByVendor() {
     }
 
     // this method loads transactions from file
@@ -373,5 +445,10 @@ public class App {
     // this method sorts transaction starting from most recent
     private static void sortFromMostRecent() {
         transactions.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
+    }
+
+    // this method sorts transaction starting from the oldest
+    private static void sortFromOldest() {
+        transactions.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime));
     }
 }
