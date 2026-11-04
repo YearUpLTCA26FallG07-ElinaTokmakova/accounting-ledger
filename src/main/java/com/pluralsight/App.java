@@ -257,8 +257,8 @@ public class App {
     private static void displayDepositsOnly() {
         // table header
         System.out.println("""
-                \n+---------------------------------------------------------+
-                |               all deposits (from most recent)             |
+                \n+-----------------------------------------------------------+
+                |             💵 all deposits (from most recent)            |
                 +-----------------------------------------------------------+""");
 
         System.out.println("""
@@ -278,10 +278,25 @@ public class App {
 
     // view all payments screen
     private static void displayPaymentsOnly() {
+        // table header
         System.out.println("""
-                \n+----------------------------------------+
-                |               💳 payments              |
-                +----------------------------------------+""");
+                \n+-----------------------------------------------------------+
+                |             💵 all payments (from most recent)            |
+                +-----------------------------------------------------------+""");
+
+        System.out.println("""
+                +----------+----------+----------------------------------------------------+---------------------------+--------------------+
+                | date     | time     | description                                        | vendor                    |        amount in $ |
+                +----------+----------+----------------------------------------------------+---------------------------+--------------------+""");
+
+        sortFromMostRecent();
+
+        // print only positive values (debit)
+        for (Transaction t : transactions) {
+            if (t.getAmount() < 0) {
+                System.out.println(t.toString());
+            }
+        }
     }
 
     // reports screen - run pre-defined reports or a custom search
@@ -290,6 +305,7 @@ public class App {
                 \n+----------------------------------------+
                 |               📊 reports               |
                 +----------------------------------------+""");
+
     }
 
     // this method loads transactions from file
