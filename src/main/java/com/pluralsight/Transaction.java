@@ -63,4 +63,9 @@ public class Transaction {
                         %-10s | %-8s | %-50s | %-25s | %20.2f""",
                 date, time, description, vendor, amount);
     }
+
+    public String toEncodedString(){
+        return "\n" + getDate() + "|" + getTime() + "|" + getDescription() + "|" + getVendor() + "|" + getAmount() ;
+        //todo: return a formatting that is appropriate for the file itself.
+    }
 }

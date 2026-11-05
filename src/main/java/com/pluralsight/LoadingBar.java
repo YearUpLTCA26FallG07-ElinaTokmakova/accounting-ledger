@@ -1,10 +1,9 @@
 package com.pluralsight;
 
-// Source - https://stackoverflow.com/a/1001340
-// Posted by laalto, modified by community. See post 'Timeline' for change history
-// Retrieved 2026-11-04, License - CC BY-SA 2.5
+// Source - https://medium.com/javarevisited/how-to-display-progressbar-on-the-standard-console-using-java-18f01d52b30e
+// Written by Arunprasadh C
+// Retrieved 2026-11-04
 
-import java.io.PrintStream;
 import java.util.stream.Stream;
 
 public class LoadingBar {

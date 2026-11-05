@@ -1,9 +1,6 @@
 package com.pluralsight;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
@@ -19,8 +16,6 @@ public class App {
 
     public static void main(String[] args) {
 
-        //returns from  file
-        //todo add loading
         loadTransactionsFromFile();
         LoadingBar.print(42, 10);
         clearConsole();
@@ -85,7 +80,6 @@ public class App {
             }
         } while (!isValid);
 
-        //TODO add try catch loop TIME PARSING!!1!!!!!111!!!1!
         //convert time input to LocalTime
         LocalTime time = LocalTime.now();
         isValid = false;
@@ -103,17 +97,22 @@ public class App {
         //description
         String description = Console.promptForString("\uD83D\uDCDD Enter transaction description: ");
 
-        //vendor
+        // vendor
         String vendor = Console.promptForString("\uD83C\uDFF7️ Enter vendor name: ");
 
-        //amount
+        // amount
         double amount = Console.promptForDouble("\uD83D\uDCB5 Enter amount: ");
 
-        //create Transaction object with user input
-        transactions.add(new Transaction(date, time, description, vendor, amount));
+        // create Transaction object with user input
+        Transaction newTransaction = new Transaction(date, time, description, vendor, amount);
+        transactions.add(newTransaction);
+
+        // add to transactions.csv
+        appendTransactionToFile(newTransaction);
 
         int selectedOption;
         do {
+            clearConsole();
             selectedOption = Console.promptForInt("""
                     \n+----------------------------------------+
                     |    💵 Deposit was successfully added.  |
@@ -139,6 +138,7 @@ public class App {
     private static void displayMakePayment() {
 //todo do you want to add transaction time manually or put it as "now"?
 
+        clearConsole();
         System.out.println("""
                 \n+----------------------------------------+
                 |             💳 make payment            |
@@ -158,7 +158,6 @@ public class App {
             }
         } while (!isValid);
 
-        //TODO add try catch loop TIME PARSING!!1!!!!!111!!!1!
         //convert time input to LocalTime
         LocalTime time = LocalTime.now();
         isValid = false;
@@ -183,11 +182,17 @@ public class App {
         double amount = Console.promptForDouble("\uD83D\uDCB5 Enter amount: ");
         amount = -amount;
 
-        //create Transaction object with user input
-        transactions.add(new Transaction(date, time, description, vendor, amount));
+        // create Transaction object with user input
+        Transaction newTransaction = new Transaction(date, time, description, vendor, amount);
+        transactions.add(newTransaction);
+
+        // add to transactions.csv1
+
+        appendTransactionToFile(newTransaction);
 
         int selectedOption;
         do {
+            clearConsole();
             selectedOption = Console.promptForInt("""
                     \n+----------------------------------------+
                     |   💳 Payment was successfully added.   |
@@ -527,5 +532,18 @@ public class App {
         for (int i = 0; i < 50; i++) {
             System.out.println();
         }
+    }
+
+    private static void appendTransactionToFile(Transaction t) {
+
+        try {
+            FileWriter writer = new FileWriter("transactions.csv", true);
+            writer.write(t.toEncodedString());
+            writer.close();
+        }
+        catch (IOException e) {
+            System.out.println("Something went wrong. Please try again.");
+        }
+
     }
 }
