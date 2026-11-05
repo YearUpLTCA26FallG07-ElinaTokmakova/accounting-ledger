@@ -1,5 +1,8 @@
 package com.pluralsight;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -8,7 +11,7 @@ public class Console {
 
     public static String promptForString(String prompt) {
         System.out.print(prompt);
-        return scanner.nextLine();
+        return scanner.nextLine().trim();
     }
 
     public static int promptForInt(String prompt) {
@@ -22,10 +25,10 @@ public class Console {
                 scanner.nextLine(); // Consume the newline
                 isValid = true;     // Input was successful, exit loop
             } catch (InputMismatchException e) {
-                System.out.println("\nInvalid input. Please enter a valid whole number.");
+                System.out.println("Invalid input. Please enter a valid whole number.\n");
                 scanner.nextLine(); // Clear the bad input from the scanner buffer
             } catch (Exception e) {
-                System.out.println("\nSomething went wrong. Please try again.");
+                System.out.println("Something went wrong. Please try again.\n");
                 scanner.nextLine(); // Clear the bad input from the scanner buffer
             }
         } while (!isValid);
@@ -44,14 +47,59 @@ public class Console {
                 scanner.nextLine(); // Consume the newline
                 isValid = true;     // Input was successful, exit loop
             } catch (InputMismatchException e) {
-                System.out.println("\nInvalid input. Please enter a valid number.");
+                System.out.println("Invalid input. Please enter a valid number.\n");
                 scanner.nextLine(); // Clear the bad input from the scanner buffer
             } catch (Exception e) {
-                System.out.println("\nSomething went wrong. Please try again.");
+                System.out.println("Something went wrong. Please try again.\n");
                 scanner.nextLine(); // Clear the bad input from the scanner buffer
             }
         } while (!isValid);
 
         return input;
+    }
+
+    public static LocalDate promptForDate(String prompt) {
+        LocalDate date = null;
+        boolean isValid = false;
+
+        do {
+            try {
+                System.out.print(prompt);
+                String dateInput = scanner.nextLine().trim();
+                date = LocalDate.parse(dateInput);
+                isValid = true;     // Input was valid and conversion was successful, exit loop
+
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid input. Please double check format yyyy-mm-dd.\n");
+
+            } catch (Exception e) {
+                System.out.println("Something went wrong. Please try again.\n");
+            }
+
+        } while (!isValid);
+
+        return date;
+    }
+
+    public static LocalTime promptForTime(String prompt) {
+        LocalTime time = null;
+        boolean isValid = false;
+
+        do {
+            try {
+                System.out.println(prompt);
+                String timeInput = scanner.nextLine().trim();
+                time = LocalTime.parse(timeInput);
+                isValid = true;     // Input was valid and conversion was successful, exit loop
+
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid input. Please double check format hh:mm:ss.\n");
+
+            } catch (Exception e) {
+                System.out.println("Something went wrong. Please try again.\n");
+            }
+        } while (!isValid);
+
+        return time;
     }
 }

@@ -17,8 +17,7 @@ public class App {
     public static void main(String[] args) {
 
         loadTransactionsFromFile();
-        LoadingBar.print(42, 10);
-        clearConsole();
+        LoadingBar.print(42, 12);
         displayHomeScreen();
 
     }
@@ -28,9 +27,9 @@ public class App {
     {
 
         //todo add welcome message
-
         int selectedOption;
         do {
+            clearConsole();
             selectedOption = Console.promptForInt("""
                     \n+----------------------------------------+
                     |                home page               |
@@ -66,46 +65,7 @@ public class App {
                 |             💵 add deposit             |
                 +----------------------------------------+""");
 
-        //convert date input to LocalDate
-        LocalDate date = LocalDate.now();
-        boolean isValid = false;
-
-        do {
-            try {
-                String dateInput = Console.promptForString("\uD83D\uDCC5 Date in format yyyy-mm-dd (e.g. 2026-11-01): ");
-                date = LocalDate.parse(dateInput);
-                isValid = true;     // Input was valid and conversion was successful, exit loop
-            } catch (DateTimeParseException e) {
-                System.out.println("Invalid input. Please double check format yyyy-mm-dd.");
-            }
-        } while (!isValid);
-
-        //convert time input to LocalTime
-        LocalTime time = LocalTime.now();
-        isValid = false;
-
-        do {
-            try {
-                String timeInput = Console.promptForString("\uD83D\uDD52 Time in format hh:mm:ss (e.g. 20:17 or 20:17:38): ");
-                time = LocalTime.parse(timeInput);
-                isValid = true;
-            } catch (DateTimeParseException e) {
-                System.out.println("Invalid input. Please double check format hh:mm:ss.");
-            }
-        } while (!isValid);
-
-        //description
-        String description = Console.promptForString("\uD83D\uDCDD Enter transaction description: ");
-
-        // vendor
-        String vendor = Console.promptForString("\uD83C\uDFF7️ Enter vendor name: ");
-
-        // amount
-        double amount = Console.promptForDouble("\uD83D\uDCB5 Enter amount: ");
-
-        // create Transaction object with user input
-        Transaction newTransaction = new Transaction(date, time, description, vendor, amount);
-        transactions.add(newTransaction);
+Transaction newTransaction = transactionInput();
 
         // add to transactions.csv
         appendTransactionToFile(newTransaction);
@@ -150,7 +110,7 @@ public class App {
 
         do {
             try {
-                String dateInput = Console.promptForString("\uD83D\uDDD3️ Date in format yyyy-mm-dd (e.g. 2026-11-01): ");
+                String dateInput = Console.promptForString("\n\uD83D\uDDD3️ Date in format yyyy-mm-dd (e.g. 2026-11-01): ");
                 date = LocalDate.parse(dateInput);
                 isValid = true;     // Input was valid and conversion was successful, exit loop
             } catch (DateTimeParseException e) {
@@ -164,7 +124,7 @@ public class App {
 
         do {
             try {
-                String timeInput = Console.promptForString("⏳ Time in format hh:mm:ss (e.g. 20:17 or 20:17:38): ");
+                String timeInput = Console.promptForString("\n⏳ Time in format hh:mm:ss (e.g. 20:17 or 20:17:38): ");
                 time = LocalTime.parse(timeInput);
                 isValid = true;
             } catch (DateTimeParseException e) {
@@ -173,13 +133,13 @@ public class App {
         } while (!isValid);
 
         //description
-        String description = Console.promptForString("\uD83D\uDCC3 Enter transaction description: ");
+        String description = Console.promptForString("\n\uD83D\uDCC3 Enter transaction description: ");
 
         //vendor
-        String vendor = Console.promptForString("\uD83E\uDD11 Enter vendor name: ");
+        String vendor = Console.promptForString("\n\uD83E\uDD11 Enter vendor name: ");
 
         //amount
-        double amount = Console.promptForDouble("\uD83D\uDCB5 Enter amount: ");
+        double amount = Console.promptForDouble("\n\uD83D\uDCB5 Enter amount: ");
         amount = -amount;
 
         // create Transaction object with user input
@@ -431,7 +391,7 @@ public class App {
                 +----------------------------------------+""");
 
         // search prompt
-        String prompt = Console.promptForString("Enter vendor name: ").trim().toLowerCase();
+        String prompt = Console.promptForString("Enter vendor name: ").toLowerCase();
 
         sortFromMostRecent();
 
@@ -544,6 +504,32 @@ public class App {
         catch (IOException e) {
             System.out.println("Something went wrong. Please try again.");
         }
+    }
+
+    private static void transactionInput(boolean isDeposit) {
+        // date input
+        LocalDate date = Console.promptForDate("\uD83D\uDCC5 Date in format yyyy-mm-dd (e.g. 2026-11-01):");
+
+        // time input
+        LocalTime time = Console.promptForTime("\uD83D\uDD52 Time in format hh:mm:ss (e.g. 20:17 or 20:17:38):");
+
+        // description input
+        String description = Console.promptForString("\uD83D\uDCDD Enter transaction description: ");
+
+        // vendor input
+        String vendor = Console.promptForString("\uD83C\uDFF7️ Enter vendor name: ");
+
+        // amount input
+        double amount = Console.promptForDouble("\uD83D\uDCB5 Enter amount: ");
+
+        if (!isDeposit) {
+            amount = - amount;
+        }
+
+        // create Transaction object with user input
+        Transaction newTransaction = new Transaction(date, time, description, vendor, amount);
+        transactions.add(newTransaction);
+
 
     }
 }
