@@ -4,7 +4,6 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
-import java.time.format.DateTimeParseException;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -17,16 +16,13 @@ public class App {
     public static void main(String[] args) {
 
         loadTransactionsFromFile();
-        LoadingBar.print(42, 12);
         displayHomeScreen();
 
     }
 
     // this method displays home screen
-    private static void displayHomeScreen()
-    {
+    private static void displayHomeScreen() {
 
-        //todo add welcome message
         int selectedOption;
         do {
             clearConsole();
@@ -41,10 +37,10 @@ public class App {
                     +----------------------------------------+
                     Select an option [0-3]:""");
 
+            clearConsole();
+
             switch (selectedOption) {
-                case 1 -> {
-                    displayAddDeposit();
-                }
+                case 1 -> displayAddDeposit();
                 case 2 -> displayMakePayment();
                 case 3 -> displayLedgerScreen();
                 case 0 -> {
@@ -65,9 +61,10 @@ public class App {
                 |             💵 add deposit             |
                 +----------------------------------------+""");
 
-Transaction newTransaction = transactionInput();
+        // input prompts and create new object
+        Transaction newTransaction = createTransactionFromFile(true);
 
-        // add to transactions.csv
+        // add new object to transactions.csv
         appendTransactionToFile(newTransaction);
 
         int selectedOption;
@@ -104,50 +101,10 @@ Transaction newTransaction = transactionInput();
                 |             💳 make payment            |
                 +----------------------------------------+""");
 
-        //convert date input to LocalDate
-        LocalDate date = LocalDate.now();
-        boolean isValid = false;
-
-        do {
-            try {
-                String dateInput = Console.promptForString("\n\uD83D\uDDD3️ Date in format yyyy-mm-dd (e.g. 2026-11-01): ");
-                date = LocalDate.parse(dateInput);
-                isValid = true;     // Input was valid and conversion was successful, exit loop
-            } catch (DateTimeParseException e) {
-                System.out.println("Invalid input. Please double check format yyyy-mm-dd.");
-            }
-        } while (!isValid);
-
-        //convert time input to LocalTime
-        LocalTime time = LocalTime.now();
-        isValid = false;
-
-        do {
-            try {
-                String timeInput = Console.promptForString("\n⏳ Time in format hh:mm:ss (e.g. 20:17 or 20:17:38): ");
-                time = LocalTime.parse(timeInput);
-                isValid = true;
-            } catch (DateTimeParseException e) {
-                System.out.println("Invalid input. Please double check format hh:mm:ss.");
-            }
-        } while (!isValid);
-
-        //description
-        String description = Console.promptForString("\n\uD83D\uDCC3 Enter transaction description: ");
-
-        //vendor
-        String vendor = Console.promptForString("\n\uD83E\uDD11 Enter vendor name: ");
-
-        //amount
-        double amount = Console.promptForDouble("\n\uD83D\uDCB5 Enter amount: ");
-        amount = -amount;
-
-        // create Transaction object with user input
-        Transaction newTransaction = new Transaction(date, time, description, vendor, amount);
-        transactions.add(newTransaction);
+        // input prompts and create new object
+        Transaction newTransaction = createTransactionFromFile(false);
 
         // add to transactions.csv1
-
         appendTransactionToFile(newTransaction);
 
         int selectedOption;
@@ -191,6 +148,8 @@ Transaction newTransaction = transactionInput();
                     +----------------------------------------+
                     Select an option [0-4]:""");
 
+            clearConsole();
+
             switch (selectedOption) {
                 case 1 -> displayAllTransactions();
                 case 2 -> displayDepositsOnly();
@@ -206,6 +165,7 @@ Transaction newTransaction = transactionInput();
 
     // view all transactions screen
     private static void displayAllTransactions() {
+
         // table header
         System.out.println("""
                 \n+-----------------------------------------------------------+
@@ -227,6 +187,7 @@ Transaction newTransaction = transactionInput();
 
     // view deposits only screen
     private static void displayDepositsOnly() {
+
         // table header
         System.out.println("""
                 \n+-----------------------------------------------------------+
@@ -250,6 +211,7 @@ Transaction newTransaction = transactionInput();
 
     // view all payments screen
     private static void displayPaymentsOnly() {
+
         // table header
         System.out.println("""
                 \n+-----------------------------------------------------------+
@@ -295,13 +257,16 @@ Transaction newTransaction = transactionInput();
                     +----------------------------------------+
                     Select an option [0-5]:""");
 
+            clearConsole();
+
             switch (selectedOption) {
                 case 1 -> reportMonthToDate();
                 case 2 -> reportPreviousMonth();
                 case 3 -> reportYearToDate();
                 case 4 -> reportPreviousYear();
                 case 5 -> searchByVendor();
-                case 0 -> {}
+                case 0 -> {
+                }
                 default -> System.out.println("\nInvalid command, please try again.");
             }
         } while (selectedOption != 0);
@@ -365,9 +330,9 @@ Transaction newTransaction = transactionInput();
 
         // table header
         System.out.printf("""
-                \n+---------------------------------------------------------------------------------+
-                |                         report (%s – %s)                        |
-                +---------------------------------------------------------------------------------+""", startDate, endDate);
+                \n+-----------------------------------------------------------+
+                |             report (%s – %s)              |
+                +-----------------------------------------------------------+""", startDate, endDate);
         System.out.println("""
                 \n+----------+----------+----------------------------------------------------+---------------------------+--------------------+
                 | date     | time     | description                                        | vendor                    |        amount in $ |
@@ -393,6 +358,8 @@ Transaction newTransaction = transactionInput();
         // search prompt
         String prompt = Console.promptForString("Enter vendor name: ").toLowerCase();
 
+        clearConsole();
+
         sortFromMostRecent();
 
         System.out.printf("\nSearch results for \"%s\":", prompt);
@@ -404,19 +371,18 @@ Transaction newTransaction = transactionInput();
             if (t.getVendor().toLowerCase().contains(prompt) && i == 0) {
                 i++;
                 System.out.println("""
-                \n+----------+----------+----------------------------------------------------+---------------------------+--------------------+
-                | date     | time     | description                                        | vendor                    |        amount in $ |
-                +----------+----------+----------------------------------------------------+---------------------------+--------------------+""");
+                        \n+----------+----------+----------------------------------------------------+---------------------------+--------------------+
+                        | date     | time     | description                                        | vendor                    |        amount in $ |
+                        +----------+----------+----------------------------------------------------+---------------------------+--------------------+""");
                 System.out.println(t);
                 isFound = true;
-            }
-            else if (t.getVendor().toLowerCase().contains(prompt.toLowerCase())) {
+            } else if (t.getVendor().toLowerCase().contains(prompt.toLowerCase())) {
                 System.out.println(t);
             }
         }
         // if not found
         if (!isFound) {
-        System.out.println("\nNo transactions found.");
+            System.out.println("\nNo transactions found.");
         }
     }
 
@@ -488,25 +454,29 @@ Transaction newTransaction = transactionInput();
         transactions.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime));
     }
 
+    // this method prints line breaks
     private static void clearConsole() {
+
+        LoadingBar.print(42, 12);
+
         for (int i = 0; i < 50; i++) {
             System.out.println();
         }
     }
 
+    // this method adds new transaction to existing file
     private static void appendTransactionToFile(Transaction t) {
 
         try {
             FileWriter writer = new FileWriter("transactions.csv", true);
             writer.write(t.toEncodedString());
             writer.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Something went wrong. Please try again.");
         }
     }
 
-    private static void transactionInput(boolean isDeposit) {
+    private static Transaction createTransactionFromFile(boolean isDeposit) {
         // date input
         LocalDate date = Console.promptForDate("\uD83D\uDCC5 Date in format yyyy-mm-dd (e.g. 2026-11-01):");
 
@@ -523,13 +493,13 @@ Transaction newTransaction = transactionInput();
         double amount = Console.promptForDouble("\uD83D\uDCB5 Enter amount: ");
 
         if (!isDeposit) {
-            amount = - amount;
+            amount = -amount;
         }
 
         // create Transaction object with user input
         Transaction newTransaction = new Transaction(date, time, description, vendor, amount);
         transactions.add(newTransaction);
 
-
+        return newTransaction;
     }
 }

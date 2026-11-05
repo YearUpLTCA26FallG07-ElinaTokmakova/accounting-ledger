@@ -87,7 +87,7 @@ public class Console {
 
         do {
             try {
-                System.out.println(prompt);
+                System.out.print(prompt);
                 String timeInput = scanner.nextLine().trim();
                 time = LocalTime.parse(timeInput);
                 isValid = true;     // Input was valid and conversion was successful, exit loop
