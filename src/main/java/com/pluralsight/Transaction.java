@@ -58,7 +58,6 @@ public class Transaction {
         this.amount = amount;
     }
 
-
     public String toString() {
         return String.format("""
                         %-10s | %-8s | %-50s | %-25s | %20.2f""",

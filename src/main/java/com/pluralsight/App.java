@@ -7,12 +7,11 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
-import java.time.Year;
 import java.time.format.DateTimeParseException;
-import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 public class App {
@@ -38,7 +37,7 @@ public class App {
         do {
             selectedOption = Console.promptForInt("""
                     \n+----------------------------------------+
-                    |               home screen              |
+                    |                home page               |
                     +----------------------------------------+
                     |  [1] 💵 add deposit                    |
                     |  [2] 💳 make payment                   |
@@ -139,7 +138,7 @@ public class App {
 
         System.out.println("""
                 \n+----------------------------------------+
-                |              make payment              |
+                |             💳 make payment            |
                 +----------------------------------------+""");
 
         //convert date input to LocalDate
@@ -241,7 +240,7 @@ public class App {
     private static void displayAllTransactions() {
         // table header
         System.out.println("""
-                \n+---------------------------------------------------------+
+                \n+-----------------------------------------------------------+
                 |             all transactions (from most recent)           |
                 +-----------------------------------------------------------+""");
 
@@ -254,7 +253,7 @@ public class App {
 
         // print values
         for (Transaction t : transactions) {
-            System.out.println(t.toString());
+            System.out.println(t);
         }
     }
 
@@ -276,7 +275,7 @@ public class App {
         // print only positive values (debit)
         for (Transaction t : transactions) {
             if (t.getAmount() > 0) {
-                System.out.println(t.toString());
+                System.out.println(t);
             }
         }
     }
@@ -299,7 +298,7 @@ public class App {
         // print only positive values (debit)
         for (Transaction t : transactions) {
             if (t.getAmount() < 0) {
-                System.out.println(t.toString());
+                System.out.println(t);
             }
         }
     }
@@ -392,11 +391,11 @@ public class App {
 
         // table header
         System.out.printf("""
-                \n\n+---------------------------------------------------------------------------------+
+                \n+---------------------------------------------------------------------------------+
                 |                         report (%s – %s)                        |
-                +---------------------------------------------------------------------------------+\n""", startDate, endDate);
+                +---------------------------------------------------------------------------------+""", startDate, endDate);
         System.out.println("""
-                +----------+----------+----------------------------------------------------+---------------------------+--------------------+
+                \n+----------+----------+----------------------------------------------------+---------------------------+--------------------+
                 | date     | time     | description                                        | vendor                    |        amount in $ |
                 +----------+----------+----------------------------------------------------+---------------------------+--------------------+""");
 
@@ -404,13 +403,47 @@ public class App {
 
         for (Transaction t : transactions) {
             if (!t.getDate().isBefore(startDate) && !t.getDate().isAfter(endDate)) {
-                System.out.println(t.toString());
+                System.out.println(t);
             }
         }
     }
 
-    // this method shows report for specific vendor
+    // this method looks for transactions by specific vendor
     private static void searchByVendor() {
+
+        System.out.println("""
+                \n+----------------------------------------+
+                |      search transactions by vendor     |
+                +----------------------------------------+""");
+
+        // search prompt
+        String prompt = Console.promptForString("Enter vendor name: ").trim().toLowerCase();
+
+        sortFromMostRecent();
+
+        System.out.printf("\nSearch results for \"%s\":", prompt);
+
+        //counter for printing header only once
+        int i = 0;
+        boolean isFound = false;
+        for (Transaction t : transactions) {
+            if (t.getVendor().toLowerCase().contains(prompt) && i == 0) {
+                i++;
+                System.out.println("""
+                \n+----------+----------+----------------------------------------------------+---------------------------+--------------------+
+                | date     | time     | description                                        | vendor                    |        amount in $ |
+                +----------+----------+----------------------------------------------------+---------------------------+--------------------+""");
+                System.out.println(t);
+                isFound = true;
+            }
+            else if (t.getVendor().toLowerCase().contains(prompt.toLowerCase())) {
+                System.out.println(t);
+            }
+        }
+        // if not found
+        if (!isFound) {
+        System.out.println("\nNo transactions found.");
+        }
     }
 
     // this method loads transactions from file
