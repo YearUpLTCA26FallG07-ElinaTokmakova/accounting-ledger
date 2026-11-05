@@ -11,7 +11,6 @@ import java.time.format.DateTimeParseException;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Locale;
 import java.util.regex.Pattern;
 
 public class App {
@@ -23,6 +22,8 @@ public class App {
         //returns from  file
         //todo add loading
         loadTransactionsFromFile();
+        LoadingBar.print(42, 10);
+        clearConsole();
         displayHomeScreen();
 
     }
@@ -47,7 +48,9 @@ public class App {
                     Select an option [0-3]:""");
 
             switch (selectedOption) {
-                case 1 -> displayAddDeposit();
+                case 1 -> {
+                    displayAddDeposit();
+                }
                 case 2 -> displayMakePayment();
                 case 3 -> displayLedgerScreen();
                 case 0 -> {
@@ -62,7 +65,7 @@ public class App {
     // this method processes "add deposit" input
     private static void displayAddDeposit() {
         //todo do you want to add transaction time manually or put it as "now"?
-
+        clearConsole();
         System.out.println("""
                 \n+----------------------------------------+
                 |             💵 add deposit             |
@@ -308,6 +311,12 @@ public class App {
 
         int selectedOption;
         do {
+            //todo add option 6 - custom search
+            // Start Date
+            // End Date
+            // Description
+            // Vendor
+            // Amount
             selectedOption = Console.promptForInt("""
                     \n+----------------------------------------+
                     |               📊 reports               |
@@ -448,10 +457,6 @@ public class App {
 
     // this method loads transactions from file
     private static void loadTransactionsFromFile() {
-        // todo create new arraylist
-        //  add try/catch
-        //  file reader + buffered reader
-        //  loop each non empty line to create Transaction object
 
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader("transactions.csv"));
@@ -516,5 +521,11 @@ public class App {
     // this method sorts transaction starting from the oldest
     private static void sortFromOldest() {
         transactions.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime));
+    }
+
+    private static void clearConsole() {
+        for (int i = 0; i < 50; i++) {
+            System.out.println();
+        }
     }
 }
