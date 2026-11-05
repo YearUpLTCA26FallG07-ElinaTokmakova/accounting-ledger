@@ -8,6 +8,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.regex.Pattern;
@@ -333,10 +335,11 @@ public class App {
 
     // this method shows report for month to date
     private static void reportMonthToDate() {
+
         // initialize today
         LocalDate endDate = LocalDate.now();
 
-        // initialize first date of current month
+        // initialize first day of current month
         LocalDate startDate = endDate.withDayOfMonth(1);
 
         showTransactionsInRange(startDate, endDate);
@@ -344,10 +347,21 @@ public class App {
 
     // this method shows report for previous month
     private static void reportPreviousMonth() {
+
+        // initialize current month
+        Month previousMonth = LocalDate.now().getMonth();
+        int previousMonthValue = previousMonth.getValue() - 1;
+        LocalDate startDate = LocalDate.now().withMonth(previousMonthValue).withDayOfMonth(1);
+
+        // initialize last day of previous month
+        LocalDate endDate = LocalDate.now().withMonth(previousMonthValue).with(TemporalAdjusters.lastDayOfMonth());
+
+        showTransactionsInRange(startDate, endDate);
     }
 
     // this method shows report for year to date
     private static void reportYearToDate() {
+
     }
 
     // this method shows report for previous year
