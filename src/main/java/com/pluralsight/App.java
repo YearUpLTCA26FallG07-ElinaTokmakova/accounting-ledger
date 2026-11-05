@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
+import java.time.Year;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
@@ -41,7 +42,7 @@ public class App {
                     +----------------------------------------+
                     |  [1] 💵 add deposit                    |
                     |  [2] 💳 make payment                   |
-                    |  [3] 📑 go to ledger                    |
+                    |  [3] 📑 go to ledger                   |
                     |  [0] 🚪 exit application               |
                     +----------------------------------------+
                     Select an option [0-3]:""");
@@ -336,11 +337,11 @@ public class App {
     // this method shows report for month to date
     private static void reportMonthToDate() {
 
+        // initialize first day of current month
+        LocalDate startDate = LocalDate.now().withDayOfMonth(1);
+
         // initialize today
         LocalDate endDate = LocalDate.now();
-
-        // initialize first day of current month
-        LocalDate startDate = endDate.withDayOfMonth(1);
 
         showTransactionsInRange(startDate, endDate);
     }
@@ -349,8 +350,8 @@ public class App {
     private static void reportPreviousMonth() {
 
         // initialize current month
-        Month previousMonth = LocalDate.now().getMonth();
-        int previousMonthValue = previousMonth.getValue() - 1;
+        Month currentMonth = LocalDate.now().getMonth();
+        int previousMonthValue = currentMonth.getValue() - 1;
         LocalDate startDate = LocalDate.now().withMonth(previousMonthValue).withDayOfMonth(1);
 
         // initialize last day of previous month
@@ -362,10 +363,28 @@ public class App {
     // this method shows report for year to date
     private static void reportYearToDate() {
 
+        // initialize first day of current year
+        LocalDate startDate = LocalDate.now().with(TemporalAdjusters.firstDayOfYear());
+
+        // initialize today
+        LocalDate endDate = LocalDate.now();
+
+        showTransactionsInRange(startDate, endDate);
     }
 
     // this method shows report for previous year
     private static void reportPreviousYear() {
+
+        // initialize first day of previous year
+        int currentYear = LocalDate.now().getYear();
+        int previousYear = currentYear - 1;
+        LocalDate startDate = LocalDate.now().withYear(previousYear).with(TemporalAdjusters.firstDayOfYear());
+
+        // initialize last day of previous year
+        LocalDate endDate = LocalDate.now().withYear(previousYear).with(TemporalAdjusters.lastDayOfYear());
+
+        showTransactionsInRange(startDate, endDate);
+
     }
 
     // this method display transactions that are in range
@@ -374,7 +393,7 @@ public class App {
         // table header
         System.out.printf("""
                 \n\n+---------------------------------------------------------------------------------+
-                |                report for month to date (%s – %s)               |
+                |                         report (%s – %s)                        |
                 +---------------------------------------------------------------------------------+\n""", startDate, endDate);
         System.out.println("""
                 +----------+----------+----------------------------------------------------+---------------------------+--------------------+
