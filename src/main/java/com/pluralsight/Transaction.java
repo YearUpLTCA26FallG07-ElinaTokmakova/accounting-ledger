@@ -60,12 +60,12 @@ public class Transaction {
 
     public String toString() {
         return String.format("""
-                        %-10s | %-8s | %-50s | %-25s | %20.2f""",
+                    ║ %-8s ║ %-8s ║ %-50s ║ %-25s ║ %18.2f ║""",
                 date, time, description, vendor, amount);
     }
 
+    // this method returns a formatting that is appropriate for adding to .csv file
     public String toEncodedString(){
-        return "\n" + getDate() + "|" + getTime() + "|" + getDescription() + "|" + getVendor() + "|" + getAmount() ;
-        //todo: return a formatting that is appropriate for the file itself.
+        return "\n" + getDate() + "|" + getTime() + "|" + getDescription() + "|" + getVendor() + "|" + getAmount();
     }
 }

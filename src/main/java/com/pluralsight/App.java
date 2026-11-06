@@ -13,8 +13,17 @@ public class App {
 
     public static ArrayList<Transaction> transactions = new ArrayList<>();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
+        System.out.println("""
+                ╔════════════════════════════════════════╗
+                ║            ✦  art & coin  ✦            ║
+                ║      ~~~~~~~~~~~~~~~~~~~~~~~~~~~       ║
+                ║          make art. make money.         ║
+                ║             keep receipts.             ║
+                ╚════════════════════════════════════════╝
+                """);
+        LoadingBar.print(42, 50);
         loadTransactionsFromFile();
         displayHomeScreen();
 
@@ -27,15 +36,15 @@ public class App {
         do {
             clearConsole();
             selectedOption = Console.promptForInt("""
-                    \n+----------------------------------------+
-                    |                home page               |
-                    +----------------------------------------+
-                    |  [1] 💵 add deposit                    |
-                    |  [2] 💳 make payment                   |
-                    |  [3] 📑 go to ledger                   |
-                    |  [0] 🚪 exit application               |
-                    +----------------------------------------+
-                    Select an option [0-3]:""");
+                    \n╔════════════════════════════════════════╗
+                    ║            ✦  art & coin  ✧            ║
+                    ║      ~~~~~~~~~~~~~~~~~~~~~~~~~~~       ║
+                    ║  [1] ✦ add deposit                     ║
+                    ║  [2] ✧ make payment                    ║
+                    ║  [3] ⌑ go to ledger                    ║
+                    ║  [0] ✕ exit application                ║
+                    ╚════════════════════════════════════════╝
+                    Select an option [0-3]: """);
 
             clearConsole();
 
@@ -45,7 +54,7 @@ public class App {
                 case 3 -> displayLedgerScreen();
                 case 0 -> {
                 }
-                default -> System.out.println("\nInvalid command, please try again.");
+                default -> System.out.println("\n△ Invalid command, please try again.");
             }
         } while (selectedOption != 0);
 
@@ -57,9 +66,10 @@ public class App {
         //todo do you want to add transaction time manually or put it as "now"?
         clearConsole();
         System.out.println("""
-                \n+----------------------------------------+
-                |             💵 add deposit             |
-                +----------------------------------------+""");
+                \n╔════════════════════════════════════════╗
+                ║           ✦  add deposit  ✦            ║
+                ║      ~~~~~~~~~~~~~~~~~~~~~~~~~~~       ║
+                ╚════════════════════════════════════════╝""");
 
         // input prompts and create new object
         Transaction newTransaction = createTransactionFromFile(true);
@@ -71,13 +81,13 @@ public class App {
         do {
             clearConsole();
             selectedOption = Console.promptForInt("""
-                    \n+----------------------------------------+
-                    |    💵 Deposit was successfully added.  |
-                    +----------------------------------------+
-                    |  [1] ➕ add another deposit            |
-                    |  [2] ↩️ return to home screen          |
-                    +----------------------------------------+
-                    Select an option [1-2]:""");
+                    \n╔════════════════════════════════════════╗
+                    ║    ✦  deposit successfully added  ✦    ║
+                    ║      ~~~~~~~~~~~~~~~~~~~~~~~~~~~       ║
+                    ║  [1] ✚ add another deposit             ║
+                    ║  [2] ↩ return to home screen           ║
+                    ╚════════════════════════════════════════╝
+                    Select an option [1-2]: """);
 
             switch (selectedOption) {
                 case 1 -> {
@@ -86,7 +96,7 @@ public class App {
                 }
                 case 2 -> {
                 }
-                default -> System.out.println("\nInvalid command, please try again.");
+                default -> System.out.println("\n△ Invalid command, please try again.");
             }
         } while (selectedOption != 2);
     }
@@ -97,9 +107,10 @@ public class App {
 
         clearConsole();
         System.out.println("""
-                \n+----------------------------------------+
-                |             💳 make payment            |
-                +----------------------------------------+""");
+                \n╔════════════════════════════════════════╗
+                ║           ✧  make payment  ✧           ║
+                ║      ~~~~~~~~~~~~~~~~~~~~~~~~~~~       ║
+                ╚════════════════════════════════════════╝""");
 
         // input prompts and create new object
         Transaction newTransaction = createTransactionFromFile(false);
@@ -111,13 +122,13 @@ public class App {
         do {
             clearConsole();
             selectedOption = Console.promptForInt("""
-                    \n+----------------------------------------+
-                    |   💳 Payment was successfully added.   |
-                    +----------------------------------------+
-                    |  [1] ➕ add another payment            |
-                    |  [2] ↩️ return to home screen          |
-                    +----------------------------------------+
-                    Pick an option (1-2):\s""");
+                    \n╔════════════════════════════════════════╗
+                    ║    ✧  payment successfully added  ✧    ║
+                    ║      ~~~~~~~~~~~~~~~~~~~~~~~~~~~       ║
+                    ║  [1] ✚ add another payment             ║
+                    ║  [2] ↩ return to home screen           ║
+                    ╚════════════════════════════════════════╝
+                    Select an option [1-2]: """);
 
             switch (selectedOption) {
                 case 1 -> {
@@ -126,7 +137,7 @@ public class App {
                 }
                 case 2 -> {
                 }
-                default -> System.out.println("\nInvalid command, please try again.");
+                default -> System.out.println("\n△ Invalid command, please try again.");
             }
         } while (selectedOption != 2);
     }
@@ -137,16 +148,16 @@ public class App {
         int selectedOption;
         do {
             selectedOption = Console.promptForInt("""
-                    \n+----------------------------------------+
-                    |               📑 ledger                |
-                    +----------------------------------------+
-                    |  [1] 📋 view all transactions          |
-                    |  [2] 💵 view deposits only             |
-                    |  [3] 💳 view payments only             |
-                    |  [4] 📊 view reports                   |
-                    |  [0] ↩️ return to home screen          |
-                    +----------------------------------------+
-                    Select an option [0-4]:""");
+                    \n╔════════════════════════════════════════╗
+                    ║             ⌑  ledger  ⌑               ║
+                    ║      ~~~~~~~~~~~~~~~~~~~~~~~~~~~       ║
+                    ║  [1] ▤ view all transactions           ║
+                    ║  [2] ✦ view deposits only              ║
+                    ║  [3] ✧ view payments only              ║
+                    ║  [4] ◫ view reports                    ║
+                    ║  [0] ↩ return to home screen           ║
+                    ╚════════════════════════════════════════╝
+                    Select an option [0-4]: """);
 
             clearConsole();
 
@@ -157,7 +168,7 @@ public class App {
                 case 4 -> displayReports();
                 case 0 -> {
                 }
-                default -> System.out.println("\nInvalid command, please try again.");
+                default -> System.out.println("\n△ Invalid command, please try again.");
             }
         } while (selectedOption != 0);
 
@@ -168,14 +179,12 @@ public class App {
 
         // table header
         System.out.println("""
-                \n+-----------------------------------------------------------+
-                |             all transactions (from most recent)           |
-                +-----------------------------------------------------------+""");
+                \n✦  all transactions (from most recent)  ✧""");
 
         System.out.println("""
-                +----------+----------+----------------------------------------------------+---------------------------+--------------------+
-                | date     | time     | description                                        | vendor                    |        amount in $ |
-                +----------+----------+----------------------------------------------------+---------------------------+--------------------+""");
+╔════════════╦══════════╦════════════════════════════════════════════════════╦═══════════════════════════╦════════════════════╗
+║ ▦ date     ║ ◷ time   ║ ✎ description                                      ║ ❖ vendor                  ║        amount in $ ║
+╠════════════╬══════════╬════════════════════════════════════════════════════╬═══════════════════════════╬════════════════════╣""");
 
         sortFromMostRecent();
 
@@ -190,14 +199,12 @@ public class App {
 
         // table header
         System.out.println("""
-                \n+-----------------------------------------------------------+
-                |             💵 all deposits (from most recent)            |
-                +-----------------------------------------------------------+""");
+                \n✦  all deposits (from most recent)  ✦""");
 
         System.out.println("""
-                +----------+----------+----------------------------------------------------+---------------------------+--------------------+
-                | date     | time     | description                                        | vendor                    |        amount in $ |
-                +----------+----------+----------------------------------------------------+---------------------------+--------------------+""");
+╔════════════╦══════════╦════════════════════════════════════════════════════╦═══════════════════════════╦════════════════════╗
+║ ▦ date     ║ ◷ time   ║ ✎ description                                      ║ ❖ vendor                  ║        amount in $ ║
+╠════════════╬══════════╬════════════════════════════════════════════════════╬═══════════════════════════╬════════════════════╣""");
 
         sortFromMostRecent();
 
@@ -214,14 +221,12 @@ public class App {
 
         // table header
         System.out.println("""
-                \n+-----------------------------------------------------------+
-                |             💵 all payments (from most recent)            |
-                +-----------------------------------------------------------+""");
+                \n✧  all payments (from most recent)  ✧""");
 
         System.out.println("""
-                +----------+----------+----------------------------------------------------+---------------------------+--------------------+
-                | date     | time     | description                                        | vendor                    |        amount in $ |
-                +----------+----------+----------------------------------------------------+---------------------------+--------------------+""");
+╔════════════╦══════════╦════════════════════════════════════════════════════╦═══════════════════════════╦════════════════════╗
+║ ▦ date     ║ ◷ time   ║ ✎ description                                      ║ ❖ vendor                  ║        amount in $ ║
+╠════════════╬══════════╬════════════════════════════════════════════════════╬═══════════════════════════╬════════════════════╣""");
 
         sortFromMostRecent();
 
@@ -245,17 +250,18 @@ public class App {
             // Vendor
             // Amount
             selectedOption = Console.promptForInt("""
-                    \n+----------------------------------------+
-                    |               📊 reports               |
-                    +----------------------------------------+
-                    |  [1] month to date                     |
-                    |  [2] previous month                    |
-                    |  [3] year to date                      |
-                    |  [4] previous year                     |
-                    |  [5] search by vendor                  |
-                    |  [0] return to ledger                  |
-                    +----------------------------------------+
-                    Select an option [0-5]:""");
+        \n╔════════════════════════════════════════╗
+        ║             ◫  reports  ◫              ║
+        ║      ~~~~~~~~~~~~~~~~~~~~~~~~~~~       ║
+        ║  [1] ◫ month to date                   ║
+        ║  [2] ◫ previous month                  ║
+        ║  [3] ◫ year to date                    ║
+        ║  [4] ◫ previous year                   ║
+        ║  [5] ❖ search by vendor                ║
+        ║  [6] ✎ custom search                   ║
+        ║  [0] ↩ return to ledger                ║
+        ╚════════════════════════════════════════╝
+        Select an option [0-6]:""");
 
             clearConsole();
 
@@ -267,7 +273,7 @@ public class App {
                 case 5 -> searchByVendor();
                 case 0 -> {
                 }
-                default -> System.out.println("\nInvalid command, please try again.");
+                default -> System.out.println("\n△ Invalid command, please try again.");
             }
         } while (selectedOption != 0);
     }
@@ -329,14 +335,13 @@ public class App {
     private static void showTransactionsInRange(LocalDate startDate, LocalDate endDate) {
 
         // table header
+        // table header
         System.out.printf("""
-                \n+-----------------------------------------------------------+
-                |             report (%s – %s)              |
-                +-----------------------------------------------------------+""", startDate, endDate);
+                \n◫  report for %s – %s  (from oldest)  ◫%n""", startDate, endDate);
         System.out.println("""
-                \n+----------+----------+----------------------------------------------------+---------------------------+--------------------+
-                | date     | time     | description                                        | vendor                    |        amount in $ |
-                +----------+----------+----------------------------------------------------+---------------------------+--------------------+""");
+╔════════════╦══════════╦════════════════════════════════════════════════════╦═══════════════════════════╦════════════════════╗
+║ ▦ date     ║ ◷ time   ║ ✎ description                                      ║ ❖ vendor                  ║        amount in $ ║
+╠════════════╬══════════╬════════════════════════════════════════════════════╬═══════════════════════════╬════════════════════╣""");
 
         sortFromOldest();
 
@@ -351,9 +356,10 @@ public class App {
     private static void searchByVendor() {
 
         System.out.println("""
-                \n+----------------------------------------+
-                |      search transactions by vendor     |
-                +----------------------------------------+""");
+                \n╔════════════════════════════════════════╗
+                ║   ✧  search transactions by vendor  ✧  ║
+                ║      ~~~~~~~~~~~~~~~~~~~~~~~~~~~       ║
+                ╚════════════════════════════════════════╝""");
 
         // search prompt
         String prompt = Console.promptForString("Enter vendor name: ").toLowerCase();
@@ -362,7 +368,7 @@ public class App {
 
         sortFromMostRecent();
 
-        System.out.printf("\nSearch results for \"%s\":", prompt);
+        System.out.printf("\n✧ search results for \"%s\" (from most recent) ✧%n", prompt);
 
         //counter for printing header only once
         int i = 0;
@@ -371,9 +377,10 @@ public class App {
             if (t.getVendor().toLowerCase().contains(prompt) && i == 0) {
                 i++;
                 System.out.println("""
-                        \n+----------+----------+----------------------------------------------------+---------------------------+--------------------+
-                        | date     | time     | description                                        | vendor                    |        amount in $ |
-                        +----------+----------+----------------------------------------------------+---------------------------+--------------------+""");
+╔════════════╦══════════╦════════════════════════════════════════════════════╦═══════════════════════════╦════════════════════╗
+║ ▦ date     ║ ◷ time   ║ ✎ description                                      ║ ❖ vendor                  ║        amount in $ ║
+╠════════════╬══════════╬════════════════════════════════════════════════════╬═══════════════════════════╬════════════════════╣""");
+
                 System.out.println(t);
                 isFound = true;
             } else if (t.getVendor().toLowerCase().contains(prompt.toLowerCase())) {
@@ -456,9 +463,6 @@ public class App {
 
     // this method prints line breaks
     private static void clearConsole() {
-
-        LoadingBar.print(42, 12);
-
         for (int i = 0; i < 50; i++) {
             System.out.println();
         }
@@ -476,21 +480,22 @@ public class App {
         }
     }
 
+    //this method takes user input and creates Transaction object
     private static Transaction createTransactionFromFile(boolean isDeposit) {
         // date input
-        LocalDate date = Console.promptForDate("\uD83D\uDCC5 Date in format yyyy-mm-dd (e.g. 2026-11-01):");
+        LocalDate date = Console.promptForDate("▦ Date in format yyyy-mm-dd (e.g. 2026-11-01): ");
 
         // time input
-        LocalTime time = Console.promptForTime("\uD83D\uDD52 Time in format hh:mm:ss (e.g. 20:17 or 20:17:38):");
+        LocalTime time = Console.promptForTime("◷ Time in format hh:mm:ss (e.g. 20:17 or 20:17:38): ");
 
         // description input
-        String description = Console.promptForString("\uD83D\uDCDD Enter transaction description: ");
+        String description = Console.promptForString("✎ Enter transaction description: ");
 
         // vendor input
-        String vendor = Console.promptForString("\uD83C\uDFF7️ Enter vendor name: ");
+        String vendor = Console.promptForString("❖️ Enter vendor name: ");
 
         // amount input
-        double amount = Console.promptForDouble("\uD83D\uDCB5 Enter amount: ");
+        double amount = Console.promptForDouble("$ Enter amount: ");
 
         if (!isDeposit) {
             amount = -amount;

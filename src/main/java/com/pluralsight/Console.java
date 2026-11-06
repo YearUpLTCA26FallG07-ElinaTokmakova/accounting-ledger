@@ -25,10 +25,10 @@ public class Console {
                 scanner.nextLine(); // Consume the newline
                 isValid = true;     // Input was successful, exit loop
             } catch (InputMismatchException e) {
-                System.out.println("Invalid input. Please enter a valid whole number.\n");
+                System.out.println("△ Invalid input. Please enter a valid whole number.\n");
                 scanner.nextLine(); // Clear the bad input from the scanner buffer
             } catch (Exception e) {
-                System.out.println("Something went wrong. Please try again.\n");
+                System.out.println("△ Something went wrong. Please try again.\n");
                 scanner.nextLine(); // Clear the bad input from the scanner buffer
             }
         } while (!isValid);
@@ -47,10 +47,10 @@ public class Console {
                 scanner.nextLine(); // Consume the newline
                 isValid = true;     // Input was successful, exit loop
             } catch (InputMismatchException e) {
-                System.out.println("Invalid input. Please enter a valid number.\n");
+                System.out.println("△ Invalid input. Please enter a valid number.\n");
                 scanner.nextLine(); // Clear the bad input from the scanner buffer
             } catch (Exception e) {
-                System.out.println("Something went wrong. Please try again.\n");
+                System.out.println("△ Something went wrong. Please try again.\n");
                 scanner.nextLine(); // Clear the bad input from the scanner buffer
             }
         } while (!isValid);
@@ -70,10 +70,10 @@ public class Console {
                 isValid = true;     // Input was valid and conversion was successful, exit loop
 
             } catch (DateTimeParseException e) {
-                System.out.println("Invalid input. Please double check format yyyy-mm-dd.\n");
+                System.out.println("△ Invalid input. Please double check format yyyy-mm-dd.\n");
 
             } catch (Exception e) {
-                System.out.println("Something went wrong. Please try again.\n");
+                System.out.println("△ Something went wrong. Please try again.\n");
             }
 
         } while (!isValid);
@@ -93,10 +93,10 @@ public class Console {
                 isValid = true;     // Input was valid and conversion was successful, exit loop
 
             } catch (DateTimeParseException e) {
-                System.out.println("Invalid input. Please double check format hh:mm:ss.\n");
+                System.out.println("△ Invalid input. Please double check format hh:mm:ss.\n");
 
             } catch (Exception e) {
-                System.out.println("Something went wrong. Please try again.\n");
+                System.out.println("△ Something went wrong. Please try again.\n");
             }
         } while (!isValid);
 
