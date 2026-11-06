@@ -1,5 +1,7 @@
 package com.pluralsight;
 
+import java.util.stream.Stream;
+
 public class UI {
 
     public static final String RESET = "\u001B[0m";
@@ -11,15 +13,15 @@ public class UI {
     public static int menuHome() {
         clearConsole();
         int selectedOption = Console.promptForInt(BLUE + """
-                    \n╔════════════════════════════════════════╗
-                    ║            ✦  art & coin  ✧            ║
-                    ║      ~~~~~~~~~~~~~~~~~~~~~~~~~~~       ║
-                    ║  [1] ✦ add deposit                     ║
-                    ║  [2] ✧ make payment                    ║
-                    ║  [3] ⌑ go to ledger                    ║
-                    ║  [0] ✕ exit application                ║
-                    ╚════════════════════════════════════════╝
-                    Select an option [0-3]: """ + RESET);
+                \n╔════════════════════════════════════════╗
+                ║            ✦  art & coin  ✧            ║
+                ║      ~~~~~~~~~~~~~~~~~~~~~~~~~~~       ║
+                ║  [1] ✦ add deposit                     ║
+                ║  [2] ✧ make payment                    ║
+                ║  [3] ⌑ go to ledger                    ║
+                ║  [0] ✕ exit application                ║
+                ╚════════════════════════════════════════╝
+                Select an option [0-3]: """ + RESET);
         return selectedOption;
     }
 
@@ -38,13 +40,13 @@ public class UI {
         clearConsole();
         int selectedOption = Console.promptForInt(
                 GREEN + "\n✦  deposit successfully added  ✦\n\n" + RESET + """
-                    ╔════════════════════════════════════════╗
-                    ║        ✦  add another payment  ✦       ║
-                    ║      ~~~~~~~~~~~~~~~~~~~~~~~~~~~       ║
-                    ║  [1] ✚ add another deposit             ║
-                    ║  [2] ↩ return to home screen           ║
-                    ╚════════════════════════════════════════╝
-                    Select an option [1-2]: """);
+                        ╔════════════════════════════════════════╗
+                        ║        ✦  add another payment  ✦       ║
+                        ║      ~~~~~~~~~~~~~~~~~~~~~~~~~~~       ║
+                        ║  [1] ✚ add another deposit             ║
+                        ║  [2] ↩ return to home screen           ║
+                        ╚════════════════════════════════════════╝
+                        Select an option [1-2]: """);
         return selectedOption;
     }
 
@@ -64,13 +66,13 @@ public class UI {
 
         int selectedOption = Console.promptForInt(
                 RED + "\n✧  payment successfully made  ✧\n\n" + RESET + """
-            ╔════════════════════════════════════════╗
-            ║       ✧  make another payment  ✧       ║
-            ║      ~~~~~~~~~~~~~~~~~~~~~~~~~~~       ║
-            ║  [1] ✚ add another payment             ║
-            ║  [2] ↩ return to home screen           ║
-            ╚════════════════════════════════════════╝
-            Select an option [1-2]: """);
+                        ╔════════════════════════════════════════╗
+                        ║       ✧  make another payment  ✧       ║
+                        ║      ~~~~~~~~~~~~~~~~~~~~~~~~~~~       ║
+                        ║  [1] ✚ add another payment             ║
+                        ║  [2] ↩ return to home screen           ║
+                        ╚════════════════════════════════════════╝
+                        Select an option [1-2]: """);
         return selectedOption;
     }
 
@@ -78,16 +80,16 @@ public class UI {
     public static int menuLedger() {
         clearConsole();
         int selectedOption = Console.promptForInt(BLUE + """
-                    \n╔════════════════════════════════════════╗
-                    ║             ⌑  ledger  ⌑               ║
-                    ║      ~~~~~~~~~~~~~~~~~~~~~~~~~~~       ║
-                    ║  [1] ▤ view all transactions           ║
-                    ║  [2] ✦ view deposits only              ║
-                    ║  [3] ✧ view payments only              ║
-                    ║  [4] ◫ view reports                    ║
-                    ║  [0] ↩ return to home screen           ║
-                    ╚════════════════════════════════════════╝
-                    Select an option [0-4]: """ + RESET);
+                \n╔════════════════════════════════════════╗
+                ║             ⌑  ledger  ⌑               ║
+                ║      ~~~~~~~~~~~~~~~~~~~~~~~~~~~       ║
+                ║  [1] ▤ view all transactions           ║
+                ║  [2] ✦ view deposits only              ║
+                ║  [3] ✧ view payments only              ║
+                ║  [4] ◫ view reports                    ║
+                ║  [0] ↩ return to home screen           ║
+                ╚════════════════════════════════════════╝
+                Select an option [0-4]: """ + RESET);
         return selectedOption;
     }
 
@@ -95,18 +97,18 @@ public class UI {
     public static int menuReports() {
         clearConsole();
         int selectedOption = Console.promptForInt(BLUE + """
-                    \n╔════════════════════════════════════════╗
-                    ║             ◫  reports  ◫              ║
-                    ║      ~~~~~~~~~~~~~~~~~~~~~~~~~~~       ║
-                    ║  [1] ◫ month to date                   ║
-                    ║  [2] ◫ previous month                  ║
-                    ║  [3] ◫ year to date                    ║
-                    ║  [4] ◫ previous year                   ║
-                    ║  [5] ❖ search by vendor                ║
-                    ║  [6] ✎ custom search                   ║
-                    ║  [0] ↩ return to ledger                ║
-                    ╚════════════════════════════════════════╝
-                    Select an option [0-6]: """ + BLUE);
+                \n╔════════════════════════════════════════╗
+                ║             ◫  reports  ◫              ║
+                ║      ~~~~~~~~~~~~~~~~~~~~~~~~~~~       ║
+                ║  [1] ◫ month to date                   ║
+                ║  [2] ◫ previous month                  ║
+                ║  [3] ◫ year to date                    ║
+                ║  [4] ◫ previous year                   ║
+                ║  [5] ❖ search by vendor                ║
+                ║  [6] ✎ custom search                   ║
+                ║  [0] ↩ return to ledger                ║
+                ╚════════════════════════════════════════╝
+                Select an option [0-6]: """ + BLUE);
         return selectedOption;
     }
 
@@ -141,6 +143,26 @@ public class UI {
     private static void clearConsole() {
         for (int i = 0; i < 10; i++) {
             System.out.println();
+        }
+    }
+
+    // Source - https://medium.com/javarevisited/how-to-display-progressbar-on-the-standard-console-using-java-18f01d52b30e
+    // Written by Arunprasadh C
+    // Retrieved 2026-11-04
+    public static void loadingBar(int length, long timeInterval) {
+        char incomplete = '░'; // U+2591 Unicode Character
+        char complete = '█'; // U+2588 Unicode Character
+        StringBuilder builder = new StringBuilder();
+        Stream.generate(() -> incomplete).limit(length).forEach(builder::append);
+        System.out.println("\n\n\nloading...");
+        for (int i = 0; i < length; i++) {
+            builder.replace(i, i + 1, String.valueOf(complete));
+            String progressBar = "\r" + builder;
+            System.out.print(progressBar);
+            try {
+                Thread.sleep(timeInterval);
+            } catch (InterruptedException ignored) {
+            }
         }
     }
 }
