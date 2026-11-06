@@ -381,7 +381,8 @@ public class App {
     private static void loadTransactionsFromFile() {
 
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader("transactions.csv"));
+            String fileName = "transactions.csv";
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
 
             //skip first line in file
             bufferedReader.readLine();
@@ -442,7 +443,8 @@ public class App {
     private static void appendTransactionToFile(Transaction t) {
 
         try {
-            FileWriter writer = new FileWriter("transactions.csv", true);
+            String fileName = "transactions.csv";
+            FileWriter writer = new FileWriter(fileName, true);
             writer.write(t.toEncodedString());
             writer.close();
         } catch (IOException e) {
