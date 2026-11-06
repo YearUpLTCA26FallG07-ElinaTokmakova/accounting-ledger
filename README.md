@@ -158,3 +158,7 @@ New transactions are appended to the end of the file as you add them. Lines that
 ## Author
 
 Built by Elina as a capstone project.
+
+## Acknowledgments
+
+This README file was drafted by Claude Sonnet 5.5 (Anthropic) based on the project's source code, and reviewed by the author for accuracy and professional judgment.
