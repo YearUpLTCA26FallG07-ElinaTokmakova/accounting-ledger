@@ -4,6 +4,7 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
+import java.time.format.DateTimeParseException;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -181,11 +182,7 @@ public class App {
         System.out.println("""
                 \n✦  all transactions (from most recent)  ✧""");
 
-        System.out.println("""
-╔════════════╦══════════╦════════════════════════════════════════════════════╦═══════════════════════════╦════════════════════╗
-║ ▦ date     ║ ◷ time   ║ ✎ description                                      ║ ❖ vendor                  ║        amount in $ ║
-╠════════════╬══════════╬════════════════════════════════════════════════════╬═══════════════════════════╬════════════════════╣""");
-
+        UI.tableHeader();
         sortFromMostRecent();
 
         // print values
@@ -201,11 +198,7 @@ public class App {
         System.out.println("""
                 \n✦  all deposits (from most recent)  ✦""");
 
-        System.out.println("""
-╔════════════╦══════════╦════════════════════════════════════════════════════╦═══════════════════════════╦════════════════════╗
-║ ▦ date     ║ ◷ time   ║ ✎ description                                      ║ ❖ vendor                  ║        amount in $ ║
-╠════════════╬══════════╬════════════════════════════════════════════════════╬═══════════════════════════╬════════════════════╣""");
-
+        UI.tableHeader();
         sortFromMostRecent();
 
         // print only positive values (debit)
@@ -223,11 +216,7 @@ public class App {
         System.out.println("""
                 \n✧  all payments (from most recent)  ✧""");
 
-        System.out.println("""
-╔════════════╦══════════╦════════════════════════════════════════════════════╦═══════════════════════════╦════════════════════╗
-║ ▦ date     ║ ◷ time   ║ ✎ description                                      ║ ❖ vendor                  ║        amount in $ ║
-╠════════════╬══════════╬════════════════════════════════════════════════════╬═══════════════════════════╬════════════════════╣""");
-
+        UI.tableHeader();
         sortFromMostRecent();
 
         // print only positive values (debit)
@@ -243,25 +232,19 @@ public class App {
 
         int selectedOption;
         do {
-            //todo add option 6 - custom search
-            // Start Date
-            // End Date
-            // Description
-            // Vendor
-            // Amount
             selectedOption = Console.promptForInt("""
-        \n╔════════════════════════════════════════╗
-        ║             ◫  reports  ◫              ║
-        ║      ~~~~~~~~~~~~~~~~~~~~~~~~~~~       ║
-        ║  [1] ◫ month to date                   ║
-        ║  [2] ◫ previous month                  ║
-        ║  [3] ◫ year to date                    ║
-        ║  [4] ◫ previous year                   ║
-        ║  [5] ❖ search by vendor                ║
-        ║  [6] ✎ custom search                   ║
-        ║  [0] ↩ return to ledger                ║
-        ╚════════════════════════════════════════╝
-        Select an option [0-6]:""");
+                    \n╔════════════════════════════════════════╗
+                    ║             ◫  reports  ◫              ║
+                    ║      ~~~~~~~~~~~~~~~~~~~~~~~~~~~       ║
+                    ║  [1] ◫ month to date                   ║
+                    ║  [2] ◫ previous month                  ║
+                    ║  [3] ◫ year to date                    ║
+                    ║  [4] ◫ previous year                   ║
+                    ║  [5] ❖ search by vendor                ║
+                    ║  [6] ✎ custom search                   ║
+                    ║  [0] ↩ return to ledger                ║
+                    ╚════════════════════════════════════════╝
+                    Select an option [0-6]: """);
 
             clearConsole();
 
@@ -271,6 +254,7 @@ public class App {
                 case 3 -> reportYearToDate();
                 case 4 -> reportPreviousYear();
                 case 5 -> searchByVendor();
+                case 6 -> searchCustom();
                 case 0 -> {
                 }
                 default -> System.out.println("\n△ Invalid command, please try again.");
@@ -331,18 +315,14 @@ public class App {
 
     }
 
-    // this method display transactions that are in range
+    // this method displays transactions that are in specific range
     private static void showTransactionsInRange(LocalDate startDate, LocalDate endDate) {
 
         // table header
         // table header
         System.out.printf("""
                 \n◫  report for %s – %s  (from oldest)  ◫%n""", startDate, endDate);
-        System.out.println("""
-╔════════════╦══════════╦════════════════════════════════════════════════════╦═══════════════════════════╦════════════════════╗
-║ ▦ date     ║ ◷ time   ║ ✎ description                                      ║ ❖ vendor                  ║        amount in $ ║
-╠════════════╬══════════╬════════════════════════════════════════════════════╬═══════════════════════════╬════════════════════╣""");
-
+        UI.tableHeader();
         sortFromOldest();
 
         for (Transaction t : transactions) {
@@ -377,9 +357,9 @@ public class App {
             if (t.getVendor().toLowerCase().contains(prompt) && i == 0) {
                 i++;
                 System.out.println("""
-╔════════════╦══════════╦════════════════════════════════════════════════════╦═══════════════════════════╦════════════════════╗
-║ ▦ date     ║ ◷ time   ║ ✎ description                                      ║ ❖ vendor                  ║        amount in $ ║
-╠════════════╬══════════╬════════════════════════════════════════════════════╬═══════════════════════════╬════════════════════╣""");
+                        ╔════════════╦══════════╦════════════════════════════════════════════════════╦═══════════════════════════╦════════════════════╗
+                        ║ ▦ date     ║ ◷ time   ║ ✎ description                                      ║ ❖ vendor                  ║        amount in $ ║
+                        ╠════════════╬══════════╬════════════════════════════════════════════════════╬═══════════════════════════╬════════════════════╣""");
 
                 System.out.println(t);
                 isFound = true;
@@ -391,6 +371,113 @@ public class App {
         if (!isFound) {
             System.out.println("\nNo transactions found.");
         }
+    }
+
+    // this method allows to search by each transaction value
+    private static void searchCustom() {
+
+        System.out.println("""
+                \n╔════════════════════════════════════════╗
+                ║           ✧  custom search  ✧          ║
+                ║      ~~~~~~~~~~~~~~~~~~~~~~~~~~~       ║
+                ╚════════════════════════════════════════╝""");
+
+        //run search for date range
+        LocalDate[] dateRange = Console.promptForDateRange();
+        LocalDate startDate = dateRange[0];
+        LocalDate endDate = dateRange[1];
+
+        ArrayList<Transaction> dateRangeResults = new ArrayList<>();
+        for (Transaction t : transactions) {
+            if (startDate == null || (!t.getDate().isBefore(startDate) && !t.getDate().isAfter(endDate))) {
+                dateRangeResults.add(t);
+            }
+        }
+
+        // run search for description
+        String description = Console.promptForString("Enter description (press Enter↵ to skip): ").toLowerCase();
+
+        ArrayList<Transaction> descriptionResults = new ArrayList<>();
+        for (Transaction t : dateRangeResults) {
+            if (description.isEmpty() || t.getDescription().toLowerCase().contains(description)) {
+                descriptionResults.add(t);
+            }
+        }
+
+        // run search for vendor
+        String vendor = Console.promptForString("Enter vendor (press Enter↵ to skip): ").toLowerCase();
+
+        ArrayList<Transaction> vendorResults = new ArrayList<>();
+        for (Transaction t : descriptionResults) {
+            if (vendor.isEmpty() || t.getVendor().toLowerCase().contains(vendor)) {
+                vendorResults.add(t);
+            }
+        }
+
+        // run search for amount range
+        Double[] amountRange = Console.promptForAmountRange();
+        Double lowestAmount = amountRange[0];
+        Double highestAmount = amountRange[1];
+
+        ArrayList<Transaction> amountRangeResults = new ArrayList<>();
+        for (Transaction t : vendorResults) {
+            if ((lowestAmount == null || Math.abs(t.getAmount()) >= lowestAmount) && (highestAmount == null || Math.abs(t.getAmount()) <= highestAmount)) {
+                amountRangeResults.add(t);
+            }
+        }
+
+        // initialize values for format print
+        // date text
+        String dateText;
+        if (startDate == null) {
+            dateText = "any date";
+        } else {
+            dateText = startDate + " to " + endDate;
+        }
+
+        // description text
+        String descText;
+        if (description.isEmpty()) {
+            descText = "any";
+        } else {
+            descText = description;
+        }
+
+        // vendor text
+        String vendorText;
+        if (vendor.isEmpty()) {
+            vendorText = "any";
+        } else {
+            vendorText = vendor;
+        }
+
+        // amount text
+        String amountText;
+        if (lowestAmount == null && highestAmount == null) {
+            amountText = "any";
+        } else if (lowestAmount != null && highestAmount != null) {
+            amountText = "$" + lowestAmount + " - $" + highestAmount;
+        } else if (lowestAmount != null) {
+            amountText = ">= $" + lowestAmount;
+        } else {
+            amountText = "<= $" + highestAmount;
+        }
+
+        // output
+        clearConsole();
+        sortFromMostRecent();
+        System.out.printf("\n✧ search results ✧" +
+                "%n(date: %s ║ description: %s ║ vendor: %s ║ amount: %s)%n", dateText, descText, vendorText, amountText);
+        UI.tableHeader();
+
+        for (Transaction t : amountRangeResults) {
+            System.out.println(t);
+        }
+
+        if (amountRangeResults.isEmpty()) {
+            System.out.println("\nNo transactions found matching your criteria.");
+        }
+
     }
 
     // this method loads transactions from file
@@ -419,7 +506,7 @@ public class App {
             System.out.println("File was not found. Please try again.");
 
         } catch (IOException e) {
-            System.out.println("Something went wrong. Please try again.");
+            System.out.println("△ Something went wrong. Please try again.");
         }
     }
 
@@ -445,7 +532,7 @@ public class App {
 
         } catch (Exception e) {
 
-            System.out.println("Something went wrong. Please try again.");
+            System.out.println("△ Something went wrong. Please try again.");
             return null;
 
         }
@@ -476,7 +563,7 @@ public class App {
             writer.write(t.toEncodedString());
             writer.close();
         } catch (IOException e) {
-            System.out.println("Something went wrong. Please try again.");
+            System.out.println("△ Something went wrong. Please try again.");
         }
     }
 

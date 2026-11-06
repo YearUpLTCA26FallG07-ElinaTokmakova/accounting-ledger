@@ -102,4 +102,102 @@ public class Console {
 
         return time;
     }
+
+    public static LocalDate[] promptForDateRange() {
+        // start date of range
+        String startDateString = promptForString("Enter start date for range (yyyy-mm-dd or press Enter↵ to skip)): ").trim();
+
+        LocalDate startDate = null;
+        boolean isValid = false;
+
+        do {
+            if (startDateString.isEmpty()) {
+                isValid = true; // skip
+            } else {
+                try {
+                    startDate = LocalDate.parse(startDateString);
+                    isValid = true;     // input was valid and conversion was successful, exit loop
+                } catch (DateTimeParseException e) {
+                    System.out.println("△ Invalid input. Please double check format yyyy-mm-dd.\n");
+
+                } catch (Exception e) {
+                    System.out.println("△ Something went wrong. Please try again.\n");
+                }
+            }
+
+        } while (!isValid);
+
+        // prompt for end date of range only if user entered start date
+        LocalDate endDate = null;
+
+        if (startDate != null) {
+            isValid = false;
+            do {
+                String endDateString = Console.promptForString("Enter end date for range (yyyy-mm-dd or press Enter↵ to skip): ");
+                if (endDateString.isEmpty()) {
+                    endDate = LocalDate.now(); // if end date was skipped it defaults to today
+                    isValid = true; // skip
+                } else {
+                    try {
+                        endDate = LocalDate.parse(endDateString);
+                        isValid = true; // input was valid and conversion was successful, exit loop
+                    } catch (DateTimeParseException e) {
+                        System.out.println("△ Invalid input. Please double check format yyyy-mm-dd.\n");
+
+                    } catch (Exception e) {
+                        System.out.println("△ Something went wrong. Please try again.\n");
+                    }
+                }
+            } while (!isValid);
+        }
+
+        return new LocalDate[]{startDate, endDate};
+    }
+
+    public static Double[] promptForAmountRange() {
+        // lowest amount of range
+        String lowestString = promptForString("Enter lowest amount for range (or press Enter↵ to skip): ").trim();
+
+        Double lowestAmount = null;
+        boolean isValid = false;
+
+        do {
+            if (lowestString.isEmpty()) {
+                isValid = true; // skip
+            } else {
+                try {
+                    lowestAmount = Double.parseDouble(lowestString);
+                    isValid = true;     // input was valid and conversion was successful, exit loop
+                } catch (NumberFormatException e) {
+                    System.out.println("△ Invalid input. Please enter a valid number.\n");
+                } catch (Exception e) {
+                    System.out.println("△ Something went wrong. Please try again.\n");
+                }
+            }
+        } while (!isValid);
+
+        // prompt for highest amount of range only if user entered lowest amount
+        Double highestAmount = null;
+
+        if (lowestAmount != null) {
+            isValid = false;
+            do {
+                String highestString = promptForString("Enter highest amount for range (or press Enter↵ to skip): ");
+                if (highestString.isEmpty()) {
+                    isValid = true; // skip
+                } else {
+                    try {
+                        highestAmount = Double.parseDouble(highestString);
+                        isValid = true; // input was valid and conversion was successful, exit loop
+                    } catch (NumberFormatException e) {
+                        System.out.println("△ Invalid input. Please enter a valid number.\n");
+                    } catch (Exception e) {
+                        System.out.println("△ Something went wrong. Please try again.\n");
+                    }
+                }
+            } while (!isValid);
+        }
+
+        return new Double[]{lowestAmount, highestAmount};
+    }
 }
