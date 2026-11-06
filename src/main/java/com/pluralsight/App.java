@@ -32,23 +32,10 @@ public class App {
 
     // this method displays home screen
     private static void displayHomeScreen() {
-
         int selectedOption;
+
         do {
-            clearConsole();
-            selectedOption = Console.promptForInt("""
-                    \n╔════════════════════════════════════════╗
-                    ║            ✦  art & coin  ✧            ║
-                    ║      ~~~~~~~~~~~~~~~~~~~~~~~~~~~       ║
-                    ║  [1] ✦ add deposit                     ║
-                    ║  [2] ✧ make payment                    ║
-                    ║  [3] ⌑ go to ledger                    ║
-                    ║  [0] ✕ exit application                ║
-                    ╚════════════════════════════════════════╝
-                    Select an option [0-3]: """);
-
-            clearConsole();
-
+            selectedOption = UI.menuHome();
             switch (selectedOption) {
                 case 1 -> displayAddDeposit();
                 case 2 -> displayMakePayment();
@@ -59,18 +46,17 @@ public class App {
             }
         } while (selectedOption != 0);
 
-        System.out.println("Thanks for using our app. Bye!");
+        try {
+            Thread.sleep(800);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("\n✦  thanks for using art & coin  ✧");
     }
 
     // this method processes "add deposit" input
     private static void displayAddDeposit() {
-        //todo do you want to add transaction time manually or put it as "now"?
-        clearConsole();
-        System.out.println("""
-                \n╔════════════════════════════════════════╗
-                ║           ✦  add deposit  ✦            ║
-                ║      ~~~~~~~~~~~~~~~~~~~~~~~~~~~       ║
-                ╚════════════════════════════════════════╝""");
+        UI.addDepositHeader();
 
         // input prompts and create new object
         Transaction newTransaction = createTransactionFromFile(true);
@@ -80,16 +66,7 @@ public class App {
 
         int selectedOption;
         do {
-            clearConsole();
-            selectedOption = Console.promptForInt("""
-                    \n╔════════════════════════════════════════╗
-                    ║    ✦  deposit successfully added  ✦    ║
-                    ║      ~~~~~~~~~~~~~~~~~~~~~~~~~~~       ║
-                    ║  [1] ✚ add another deposit             ║
-                    ║  [2] ↩ return to home screen           ║
-                    ╚════════════════════════════════════════╝
-                    Select an option [1-2]: """);
-
+            selectedOption = UI.addAnotherDeposit();
             switch (selectedOption) {
                 case 1 -> {
                     displayAddDeposit();
@@ -105,14 +82,7 @@ public class App {
     // this method processes "make payment" input
     private static void displayMakePayment() {
 //todo do you want to add transaction time manually or put it as "now"?
-
-        clearConsole();
-        System.out.println("""
-                \n╔════════════════════════════════════════╗
-                ║           ✧  make payment  ✧           ║
-                ║      ~~~~~~~~~~~~~~~~~~~~~~~~~~~       ║
-                ╚════════════════════════════════════════╝""");
-
+        UI.makePayment();
         // input prompts and create new object
         Transaction newTransaction = createTransactionFromFile(false);
 
@@ -121,16 +91,7 @@ public class App {
 
         int selectedOption;
         do {
-            clearConsole();
-            selectedOption = Console.promptForInt("""
-                    \n╔════════════════════════════════════════╗
-                    ║    ✧  payment successfully added  ✧    ║
-                    ║      ~~~~~~~~~~~~~~~~~~~~~~~~~~~       ║
-                    ║  [1] ✚ add another payment             ║
-                    ║  [2] ↩ return to home screen           ║
-                    ╚════════════════════════════════════════╝
-                    Select an option [1-2]: """);
-
+            selectedOption = UI.addAnotherPayment();
             switch (selectedOption) {
                 case 1 -> {
                     displayMakePayment();
@@ -145,23 +106,9 @@ public class App {
 
     // this method displays ledger screen
     private static void displayLedgerScreen() {
-
         int selectedOption;
         do {
-            selectedOption = Console.promptForInt("""
-                    \n╔════════════════════════════════════════╗
-                    ║             ⌑  ledger  ⌑               ║
-                    ║      ~~~~~~~~~~~~~~~~~~~~~~~~~~~       ║
-                    ║  [1] ▤ view all transactions           ║
-                    ║  [2] ✦ view deposits only              ║
-                    ║  [3] ✧ view payments only              ║
-                    ║  [4] ◫ view reports                    ║
-                    ║  [0] ↩ return to home screen           ║
-                    ╚════════════════════════════════════════╝
-                    Select an option [0-4]: """);
-
-            clearConsole();
-
+            selectedOption = UI.menuLedger();
             switch (selectedOption) {
                 case 1 -> displayAllTransactions();
                 case 2 -> displayDepositsOnly();
@@ -172,16 +119,13 @@ public class App {
                 default -> System.out.println("\n△ Invalid command, please try again.");
             }
         } while (selectedOption != 0);
-
     }
 
     // view all transactions screen
     private static void displayAllTransactions() {
-
         // table header
-        System.out.println("""
-                \n✦  all transactions (from most recent)  ✧""");
-
+        System.out.println(UI.BLUE + """
+                \n✦  all transactions (from most recent)  ✧""" + UI.RESET);
         UI.tableHeader();
         sortFromMostRecent();
 
@@ -193,11 +137,9 @@ public class App {
 
     // view deposits only screen
     private static void displayDepositsOnly() {
-
         // table header
-        System.out.println("""
-                \n✦  all deposits (from most recent)  ✦""");
-
+        System.out.println(UI.BLUE + """
+                \n✦  all deposits (from most recent)  ✦""" + UI.RESET);
         UI.tableHeader();
         sortFromMostRecent();
 
@@ -211,11 +153,9 @@ public class App {
 
     // view all payments screen
     private static void displayPaymentsOnly() {
-
         // table header
-        System.out.println("""
-                \n✧  all payments (from most recent)  ✧""");
-
+        System.out.println(UI.BLUE + """
+                \n✧  all payments (from most recent)  ✧""" + UI.RESET);
         UI.tableHeader();
         sortFromMostRecent();
 
@@ -229,25 +169,9 @@ public class App {
 
     // reports screen - run pre-defined reports or a custom search
     private static void displayReports() {
-
         int selectedOption;
         do {
-            selectedOption = Console.promptForInt("""
-                    \n╔════════════════════════════════════════╗
-                    ║             ◫  reports  ◫              ║
-                    ║      ~~~~~~~~~~~~~~~~~~~~~~~~~~~       ║
-                    ║  [1] ◫ month to date                   ║
-                    ║  [2] ◫ previous month                  ║
-                    ║  [3] ◫ year to date                    ║
-                    ║  [4] ◫ previous year                   ║
-                    ║  [5] ❖ search by vendor                ║
-                    ║  [6] ✎ custom search                   ║
-                    ║  [0] ↩ return to ledger                ║
-                    ╚════════════════════════════════════════╝
-                    Select an option [0-6]: """);
-
-            clearConsole();
-
+            selectedOption = UI.menuReports();
             switch (selectedOption) {
                 case 1 -> reportMonthToDate();
                 case 2 -> reportPreviousMonth();
@@ -264,7 +188,6 @@ public class App {
 
     // this method shows report for month to date
     private static void reportMonthToDate() {
-
         // initialize first day of current month
         LocalDate startDate = LocalDate.now().withDayOfMonth(1);
 
@@ -276,21 +199,17 @@ public class App {
 
     // this method shows report for previous month
     private static void reportPreviousMonth() {
-
-        // initialize current month
-        Month currentMonth = LocalDate.now().getMonth();
-        int previousMonthValue = currentMonth.getValue() - 1;
-        LocalDate startDate = LocalDate.now().withMonth(previousMonthValue).withDayOfMonth(1);
+        // initialize first day of previous month safely (handles January -> previous December automatically)
+        LocalDate startDate = LocalDate.now().minusMonths(1).withDayOfMonth(1);
 
         // initialize last day of previous month
-        LocalDate endDate = LocalDate.now().withMonth(previousMonthValue).with(TemporalAdjusters.lastDayOfMonth());
+        LocalDate endDate = LocalDate.now().minusMonths(1).with(TemporalAdjusters.lastDayOfMonth());
 
         showTransactionsInRange(startDate, endDate);
     }
 
     // this method shows report for year to date
     private static void reportYearToDate() {
-
         // initialize first day of current year
         LocalDate startDate = LocalDate.now().with(TemporalAdjusters.firstDayOfYear());
 
@@ -302,7 +221,6 @@ public class App {
 
     // this method shows report for previous year
     private static void reportPreviousYear() {
-
         // initialize first day of previous year
         int currentYear = LocalDate.now().getYear();
         int previousYear = currentYear - 1;
@@ -317,8 +235,6 @@ public class App {
 
     // this method displays transactions that are in specific range
     private static void showTransactionsInRange(LocalDate startDate, LocalDate endDate) {
-
-        // table header
         // table header
         System.out.printf("""
                 \n◫  report for %s – %s  (from oldest)  ◫%n""", startDate, endDate);
@@ -334,21 +250,12 @@ public class App {
 
     // this method looks for transactions by specific vendor
     private static void searchByVendor() {
-
-        System.out.println("""
-                \n╔════════════════════════════════════════╗
-                ║   ✧  search transactions by vendor  ✧  ║
-                ║      ~~~~~~~~~~~~~~~~~~~~~~~~~~~       ║
-                ╚════════════════════════════════════════╝""");
-
+        UI.searchByVendor();
         // search prompt
         String prompt = Console.promptForString("Enter vendor name: ").toLowerCase();
-
-        clearConsole();
-
         sortFromMostRecent();
-
-        System.out.printf("\n✧ search results for \"%s\" (from most recent) ✧%n", prompt);
+        //output
+        System.out.printf(UI.BLUE + "\n✧ search results for \"%s\" (from most recent) ✧%n" + UI.RESET, prompt);
 
         //counter for printing header only once
         int i = 0;
@@ -356,11 +263,7 @@ public class App {
         for (Transaction t : transactions) {
             if (t.getVendor().toLowerCase().contains(prompt) && i == 0) {
                 i++;
-                System.out.println("""
-                        ╔════════════╦══════════╦════════════════════════════════════════════════════╦═══════════════════════════╦════════════════════╗
-                        ║ ▦ date     ║ ◷ time   ║ ✎ description                                      ║ ❖ vendor                  ║        amount in $ ║
-                        ╠════════════╬══════════╬════════════════════════════════════════════════════╬═══════════════════════════╬════════════════════╣""");
-
+                UI.tableHeader();
                 System.out.println(t);
                 isFound = true;
             } else if (t.getVendor().toLowerCase().contains(prompt.toLowerCase())) {
@@ -375,12 +278,7 @@ public class App {
 
     // this method allows to search by each transaction value
     private static void searchCustom() {
-
-        System.out.println("""
-                \n╔════════════════════════════════════════╗
-                ║           ✧  custom search  ✧          ║
-                ║      ~~~~~~~~~~~~~~~~~~~~~~~~~~~       ║
-                ╚════════════════════════════════════════╝""");
+        UI.customSearch();
 
         //run search for date range
         LocalDate[] dateRange = Console.promptForDateRange();
@@ -464,10 +362,9 @@ public class App {
         }
 
         // output
-        clearConsole();
         sortFromMostRecent();
-        System.out.printf("\n✧ search results ✧" +
-                "%n(date: %s ║ description: %s ║ vendor: %s ║ amount: %s)%n", dateText, descText, vendorText, amountText);
+        System.out.printf(UI.BLUE + "\n✧ search results ✧" +
+                "%n(date: %s ║ description: %s ║ vendor: %s ║ amount: %s)%n" + UI.RESET, dateText, descText, vendorText, amountText);
         UI.tableHeader();
 
         for (Transaction t : amountRangeResults) {
@@ -475,7 +372,7 @@ public class App {
         }
 
         if (amountRangeResults.isEmpty()) {
-            System.out.println("\nNo transactions found matching your criteria.");
+            System.out.println("\nNo transactions found.");
         }
 
     }
@@ -512,11 +409,6 @@ public class App {
 
     // this method converts each line from file to Transaction object
     private static Transaction getTransactionFromLine(String line) {
-
-        //date|time|description|vendor|amount
-        //2023-04-15|10:13:25|ergonomic keyboard|Amazon|-89.50
-        //2023-04-15|11:15:00|Invoice 1001 paid|Joe|1500.00
-
         // split each line into parts
 
         try {
@@ -531,10 +423,8 @@ public class App {
             return new Transaction(date, time, description, vendor, amount);
 
         } catch (Exception e) {
-
-            System.out.println("△ Something went wrong. Please try again.");
+            System.out.println(UI.RED + "△ Something went wrong. Please try again." + UI.RESET);
             return null;
-
         }
     }
 
@@ -546,13 +436,6 @@ public class App {
     // this method sorts transaction starting from the oldest
     private static void sortFromOldest() {
         transactions.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime));
-    }
-
-    // this method prints line breaks
-    private static void clearConsole() {
-        for (int i = 0; i < 50; i++) {
-            System.out.println();
-        }
     }
 
     // this method adds new transaction to existing file
@@ -583,7 +466,6 @@ public class App {
 
         // amount input
         double amount = Console.promptForDouble("$ Enter amount: ");
-
         if (!isDeposit) {
             amount = -amount;
         }
@@ -591,7 +473,6 @@ public class App {
         // create Transaction object with user input
         Transaction newTransaction = new Transaction(date, time, description, vendor, amount);
         transactions.add(newTransaction);
-
         return newTransaction;
     }
 }

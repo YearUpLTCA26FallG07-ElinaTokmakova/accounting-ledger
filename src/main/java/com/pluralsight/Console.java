@@ -25,10 +25,10 @@ public class Console {
                 scanner.nextLine(); // Consume the newline
                 isValid = true;     // Input was successful, exit loop
             } catch (InputMismatchException e) {
-                System.out.println("△ Invalid input. Please enter a valid whole number.\n");
+                System.out.println(UI.RED + "△ Invalid input. Please enter a valid whole number.\n" + UI.RESET);
                 scanner.nextLine(); // Clear the bad input from the scanner buffer
             } catch (Exception e) {
-                System.out.println("△ Something went wrong. Please try again.\n");
+                System.out.println(UI.RED + "△ Something went wrong. Please try again.\n" + UI.RESET);
                 scanner.nextLine(); // Clear the bad input from the scanner buffer
             }
         } while (!isValid);
@@ -47,10 +47,10 @@ public class Console {
                 scanner.nextLine(); // Consume the newline
                 isValid = true;     // Input was successful, exit loop
             } catch (InputMismatchException e) {
-                System.out.println("△ Invalid input. Please enter a valid number.\n");
+                System.out.println(UI.RED + "△ Invalid input. Please enter a valid number.\n" + UI.RESET);
                 scanner.nextLine(); // Clear the bad input from the scanner buffer
             } catch (Exception e) {
-                System.out.println("△ Something went wrong. Please try again.\n");
+                System.out.println(UI.RED + "△ Something went wrong. Please try again.\n" + UI.RESET);
                 scanner.nextLine(); // Clear the bad input from the scanner buffer
             }
         } while (!isValid);
@@ -70,10 +70,10 @@ public class Console {
                 isValid = true;     // Input was valid and conversion was successful, exit loop
 
             } catch (DateTimeParseException e) {
-                System.out.println("△ Invalid input. Please double check format yyyy-mm-dd.\n");
+                System.out.println(UI.RED + "△ Invalid input. Please double check format yyyy-mm-dd.\n" + UI.RESET);
 
             } catch (Exception e) {
-                System.out.println("△ Something went wrong. Please try again.\n");
+                System.out.println(UI.RED + "△ Something went wrong. Please try again.\n" + UI.RESET);
             }
 
         } while (!isValid);
@@ -93,10 +93,10 @@ public class Console {
                 isValid = true;     // Input was valid and conversion was successful, exit loop
 
             } catch (DateTimeParseException e) {
-                System.out.println("△ Invalid input. Please double check format hh:mm:ss.\n");
+                System.out.println(UI.RED + "△ Invalid input. Please double check format hh:mm:ss.\n" + UI.RESET);
 
             } catch (Exception e) {
-                System.out.println("△ Something went wrong. Please try again.\n");
+                System.out.println(UI.RED + "△ Something went wrong. Please try again.\n" + UI.RESET);
             }
         } while (!isValid);
 
@@ -104,13 +104,13 @@ public class Console {
     }
 
     public static LocalDate[] promptForDateRange() {
-        // start date of range
-        String startDateString = promptForString("Enter start date for range (yyyy-mm-dd or press Enter↵ to skip)): ").trim();
-
         LocalDate startDate = null;
         boolean isValid = false;
 
         do {
+            // start date of range
+            String startDateString = promptForString("Enter start date for range (yyyy-mm-dd or press Enter↵ to skip)): ").trim();
+
             if (startDateString.isEmpty()) {
                 isValid = true; // skip
             } else {
@@ -118,10 +118,10 @@ public class Console {
                     startDate = LocalDate.parse(startDateString);
                     isValid = true;     // input was valid and conversion was successful, exit loop
                 } catch (DateTimeParseException e) {
-                    System.out.println("△ Invalid input. Please double check format yyyy-mm-dd.\n");
+                    System.out.println(UI.RED + "△ Invalid input. Please double check format yyyy-mm-dd.\n" + UI.RESET);
 
                 } catch (Exception e) {
-                    System.out.println("△ Something went wrong. Please try again.\n");
+                    System.out.println(UI.RED + "△ Something went wrong. Please try again.\n" + UI.RESET);
                 }
             }
 
@@ -142,7 +142,7 @@ public class Console {
                         endDate = LocalDate.parse(endDateString);
                         isValid = true; // input was valid and conversion was successful, exit loop
                     } catch (DateTimeParseException e) {
-                        System.out.println("△ Invalid input. Please double check format yyyy-mm-dd.\n");
+                        System.out.println(UI.RED + "△ Invalid input. Please double check format yyyy-mm-dd.\n" + UI.RESET);
 
                     } catch (Exception e) {
                         System.out.println("△ Something went wrong. Please try again.\n");
@@ -155,13 +155,13 @@ public class Console {
     }
 
     public static Double[] promptForAmountRange() {
-        // lowest amount of range
-        String lowestString = promptForString("Enter lowest amount for range (or press Enter↵ to skip): ").trim();
-
         Double lowestAmount = null;
         boolean isValid = false;
 
         do {
+            // lowest amount of range
+            String lowestString = promptForString("Enter lowest amount for range (or press Enter↵ to skip): ").trim();
+
             if (lowestString.isEmpty()) {
                 isValid = true; // skip
             } else {
@@ -169,9 +169,9 @@ public class Console {
                     lowestAmount = Double.parseDouble(lowestString);
                     isValid = true;     // input was valid and conversion was successful, exit loop
                 } catch (NumberFormatException e) {
-                    System.out.println("△ Invalid input. Please enter a valid number.\n");
+                    System.out.println(UI.RED + "△ Invalid input. Please enter a valid number.\n" + UI.RESET);
                 } catch (Exception e) {
-                    System.out.println("△ Something went wrong. Please try again.\n");
+                    System.out.println(UI.RED + "△ Something went wrong. Please try again.\n" + UI.RESET);
                 }
             }
         } while (!isValid);
@@ -190,9 +190,9 @@ public class Console {
                         highestAmount = Double.parseDouble(highestString);
                         isValid = true; // input was valid and conversion was successful, exit loop
                     } catch (NumberFormatException e) {
-                        System.out.println("△ Invalid input. Please enter a valid number.\n");
+                        System.out.println(UI.RED + "△ Invalid input. Please enter a valid number.\n" + UI.RESET);
                     } catch (Exception e) {
-                        System.out.println("△ Something went wrong. Please try again.\n");
+                        System.out.println(UI.RED + "△ Something went wrong. Please try again.\n" + UI.RESET);
                     }
                 }
             } while (!isValid);
