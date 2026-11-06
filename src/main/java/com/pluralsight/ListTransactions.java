@@ -199,11 +199,14 @@ public class ListTransactions {
 
     // this method sorts transaction starting from most recent
     public static void sortFromMostRecent() {
-        App.transactions.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
+        App.transactions.sort(Comparator.comparing(Transaction::getDate)
+                .thenComparing(Transaction::getTime)
+                .reversed());
     }
 
     // this method sorts transaction starting from the oldest
     public static void sortFromOldest() {
-        App.transactions.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime));
+        App.transactions.sort(Comparator.comparing(Transaction::getDate)
+                .thenComparing(Transaction::getTime));
     }
 }
